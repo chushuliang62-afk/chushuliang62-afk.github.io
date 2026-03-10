@@ -3,412 +3,450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>褚姝良 | 游戏开发者作品集</title>
+    <title>褚姝良 | 软件工程师 · 作品集</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- 自定义光标 -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
     <!-- 导航栏 -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#hero" class="nav-logo">CSL</a>
-            <div class="nav-links">
-                <a href="#about">关于我</a>
-                <a href="#skills">专业技能</a>
-                <a href="#projects">项目经历</a>
-                <a href="#experience">工作经验</a>
-                <a href="#education">教育背景</a>
-                <a href="#contact">联系方式</a>
+            <a href="#hero" class="nav-logo">
+                <span class="logo-bracket">{</span> CSL <span class="logo-bracket">}</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#about" data-text="关于">关于</a>
+                <a href="#skills" data-text="技能">技能</a>
+                <a href="#projects" data-text="项目">项目</a>
+                <a href="#experience" data-text="经历">经历</a>
+                <a href="#contact" data-text="联系">联系</a>
             </div>
-            <button class="nav-toggle" id="navToggle" aria-label="切换菜单">
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
 
-    <!-- 首屏 -->
+    <!-- ====== 首屏 Hero ====== -->
     <section class="hero" id="hero">
-        <div class="hero-bg">
-            <div class="grid-overlay"></div>
-            <div class="floating-particles" id="particles"></div>
-        </div>
+        <canvas id="heroCanvas"></canvas>
         <div class="hero-content">
-            <div class="hero-badge">游戏开发者 & 图形程序员</div>
-            <h1 class="hero-title">
-                <span class="hero-name-zh">褚姝良</span>
-                <span class="hero-name-en">Shuliang Chu</span>
-            </h1>
-            <p class="hero-subtitle">英国纽卡斯尔大学 · 计算机游戏工程硕士在读</p>
-            <p class="hero-desc">热衷于使用 C++ 和 OpenGL 从零构建游戏引擎、实时渲染系统与交互体验。</p>
-            <div class="hero-actions">
-                <a href="#projects" class="btn btn-primary">查看项目</a>
-                <a href="#contact" class="btn btn-outline">联系我</a>
+            <div class="hero-hello">
+                <span class="typing-text" id="typingText"></span>
+                <span class="typing-cursor">|</span>
             </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">4+</span>
-                    <span class="stat-label">项目</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">20+</span>
-                    <span class="stat-label">着色器</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">Top 5%</span>
-                    <span class="stat-label">专业排名</span>
-                </div>
+            <h1 class="hero-name">褚姝良</h1>
+            <p class="hero-en">Shuliang Chu</p>
+            <div class="hero-tags">
+                <span class="hero-tag">C++ / Python</span>
+                <span class="hero-tag tag-pink">图形渲染</span>
+                <span class="hero-tag">AI & 数据</span>
+                <span class="hero-tag tag-pink">全栈开发</span>
+            </div>
+            <p class="hero-desc">纽卡斯尔大学游戏工程硕士 · 专业前5%<br>擅长底层引擎开发、实时渲染、AI 系统与后端工程</p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn-glow">
+                    <span>探索项目</span>
+                    <div class="btn-glow-effect"></div>
+                </a>
+                <a href="#contact" class="btn-ghost">联系我 &rarr;</a>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <span>向下滚动</span>
-            <div class="scroll-line"></div>
+        <div class="hero-scroll">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
         </div>
     </section>
 
-    <!-- 关于我 -->
+    <!-- ====== 关于我 ====== -->
     <section class="section" id="about">
         <div class="container">
-            <h2 class="section-title">关于我</h2>
-            <div class="about-grid">
+            <div class="section-header">
+                <span class="section-num">01</span>
+                <h2 class="section-title">关于我</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-layout">
                 <div class="about-text">
-                    <p>我是一名游戏开发者与图形程序员，目前就读于<strong>英国纽卡斯尔大学计算机游戏工程硕士</strong>，专业排名<strong>前 5%</strong>。</p>
-                    <p>本科毕业于印度韦洛尔科技大学（VIT）计算机科学专业，拥有一年半企业实战经验，兼具扎实的理论基础与工程实践能力。主要研究方向：</p>
-                    <ul class="about-list">
-                        <li>实时渲染引擎（前向 + 延迟渲染管线）</li>
-                        <li>自研物理引擎与高级碰撞检测</li>
-                        <li>游戏 AI 系统（FSM / 行为树 / A* 寻路）</li>
-                        <li>多人联机网络同步</li>
-                    </ul>
-                    <p>目前正在博士学长指导下研究 LLM-Based Game Agents 与强化学习在游戏中的应用。</p>
+                    <p class="about-lead">计算机科学本科 + 游戏工程硕士，具备<span class="text-gradient">从底层到应用</span>的全栈技术能力。</p>
+                    <p>独立完成过完整渲染引擎（20+ Shader / 延迟渲染 / 后处理）、物理引擎（SAT/GJK 碰撞检测）、AI 系统（行为树 / FSM / A*）、网络多人同步等核心系统开发。</p>
+                    <p>一年半企业实战经验，熟悉后端开发、数据库设计与系统运维。熟练运用 AI 工具辅助开发，正在研究 LLM-Based Game Agents 与机器学习方向。</p>
                 </div>
-                <div class="about-card">
-                    <div class="card-header">
-                        <span class="card-dot red"></span>
-                        <span class="card-dot yellow"></span>
-                        <span class="card-dot green"></span>
-                        <span class="card-title">profile.json</span>
+                <div class="about-terminal">
+                    <div class="terminal-bar">
+                        <div class="terminal-dots">
+                            <span class="dot dot-r"></span>
+                            <span class="dot dot-y"></span>
+                            <span class="dot dot-g"></span>
+                        </div>
+                        <span class="terminal-title">profile.sh</span>
                     </div>
-                    <pre class="card-code"><code>{
-  <span class="json-key">"name"</span>: <span class="json-str">"褚姝良 (Shuliang Chu)"</span>,
-  <span class="json-key">"role"</span>: <span class="json-str">"游戏开发者"</span>,
-  <span class="json-key">"education"</span>: {
-    <span class="json-key">"master"</span>: <span class="json-str">"纽卡斯尔大学 - 游戏工程"</span>,
-    <span class="json-key">"bachelor"</span>: <span class="json-str">"VIT - 计算机科学"</span>
-  },
-  <span class="json-key">"languages"</span>: [<span class="json-str">"中文"</span>, <span class="json-str">"英文"</span>],
-  <span class="json-key">"interests"</span>: [
-    <span class="json-str">"实时渲染"</span>,
-    <span class="json-str">"物理模拟"</span>,
-    <span class="json-str">"游戏 AI"</span>,
-    <span class="json-str">"网络同步"</span>
-  ]
-}</code></pre>
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="term-line"><span class="term-prompt">$</span> cat about.json</div>
+                        <div class="term-line term-output">{</div>
+                        <div class="term-line term-output">&nbsp;&nbsp;<span class="term-key">"姓名"</span>: <span class="term-val">"褚姝良"</span>,</div>
+                        <div class="term-line term-output">&nbsp;&nbsp;<span class="term-key">"身份"</span>: <span class="term-val">"软件工程师 / 图形程序员"</span>,</div>
+                        <div class="term-line term-output">&nbsp;&nbsp;<span class="term-key">"硕士"</span>: <span class="term-val">"纽卡斯尔大学 · 游戏工程"</span>,</div>
+                        <div class="term-line term-output">&nbsp;&nbsp;<span class="term-key">"本科"</span>: <span class="term-val">"VIT · 计算机科学"</span>,</div>
+                        <div class="term-line term-output">&nbsp;&nbsp;<span class="term-key">"方向"</span>: [<span class="term-val">"渲染"</span>, <span class="term-val">"AI"</span>, <span class="term-val">"后端"</span>, <span class="term-val">"数据"</span>]</div>
+                        <div class="term-line term-output">}</div>
+                        <div class="term-line"><span class="term-prompt">$</span> <span class="term-cursor">_</span></div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 专业技能 -->
-    <section class="section section-alt" id="skills">
+    <!-- ====== 技能 ====== -->
+    <section class="section section-dark" id="skills">
         <div class="container">
-            <h2 class="section-title">专业技能</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">&#60;/&#62;</div>
-                    <h3>编程语言</h3>
-                    <div class="skill-tags">
-                        <span class="tag tag-primary">C / C++</span>
-                        <span class="tag tag-primary">C#（Unity）</span>
-                        <span class="tag">Java</span>
-                        <span class="tag">Python</span>
-                        <span class="tag">GLSL</span>
+            <div class="section-header">
+                <span class="section-num">02</span>
+                <h2 class="section-title">专业技能</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="skills-orbit" id="skillsOrbit">
+                <div class="orbit-center">
+                    <span class="orbit-label" id="orbitLabel">悬停查看</span>
+                </div>
+                <!-- 动态生成的技能节点 -->
+            </div>
+            <div class="skills-cards">
+                <div class="skill-card" data-tilt>
+                    <div class="skill-card-glow"></div>
+                    <div class="skill-header">
+                        <div class="skill-icon-wrap blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        </div>
+                        <h3>编程语言</h3>
+                    </div>
+                    <div class="skill-bars">
+                        <div class="skill-bar-item"><span class="bar-label">C / C++</span><div class="bar-track"><div class="bar-fill blue" style="--w:95%"></div></div></div>
+                        <div class="skill-bar-item"><span class="bar-label">Python</span><div class="bar-track"><div class="bar-fill pink" style="--w:75%"></div></div></div>
+                        <div class="skill-bar-item"><span class="bar-label">C# (Unity)</span><div class="bar-track"><div class="bar-fill blue" style="--w:70%"></div></div></div>
+                        <div class="skill-bar-item"><span class="bar-label">Java</span><div class="bar-track"><div class="bar-fill pink" style="--w:65%"></div></div></div>
+                        <div class="skill-bar-item"><span class="bar-label">GLSL</span><div class="bar-track"><div class="bar-fill blue" style="--w:85%"></div></div></div>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">&#9670;</div>
-                    <h3>图形与渲染</h3>
-                    <div class="skill-tags">
-                        <span class="tag tag-primary">OpenGL</span>
-                        <span class="tag tag-primary">GLSL 着色器</span>
-                        <span class="tag">前向渲染</span>
-                        <span class="tag">延迟渲染</span>
-                        <span class="tag">阴影映射</span>
-                        <span class="tag">后处理</span>
+                <div class="skill-card" data-tilt>
+                    <div class="skill-card-glow"></div>
+                    <div class="skill-header">
+                        <div class="skill-icon-wrap pink">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        </div>
+                        <h3>图形与引擎</h3>
+                    </div>
+                    <div class="skill-tags-wrap">
+                        <span class="stag blue">OpenGL</span>
+                        <span class="stag pink">前向渲染</span>
+                        <span class="stag blue">延迟渲染</span>
+                        <span class="stag">阴影映射</span>
+                        <span class="stag pink">后处理</span>
+                        <span class="stag">物理引擎</span>
+                        <span class="stag blue">碰撞检测 SAT/GJK</span>
+                        <span class="stag pink">ECS 架构</span>
+                        <span class="stag">骨骼动画</span>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">&#9881;</div>
-                    <h3>游戏核心技术</h3>
-                    <div class="skill-tags">
-                        <span class="tag tag-primary">物理引擎</span>
-                        <span class="tag tag-primary">SAT / GJK</span>
-                        <span class="tag">AI（FSM / A* / 行为树）</span>
-                        <span class="tag">ECS 架构</span>
-                        <span class="tag">ENet 网络同步</span>
-                        <span class="tag">PS5 跨平台开发</span>
+                <div class="skill-card" data-tilt>
+                    <div class="skill-card-glow"></div>
+                    <div class="skill-header">
+                        <div class="skill-icon-wrap blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                        </div>
+                        <h3>AI & 数据</h3>
+                    </div>
+                    <div class="skill-tags-wrap">
+                        <span class="stag pink">FSM / 行为树</span>
+                        <span class="stag blue">A* 寻路</span>
+                        <span class="stag">LLM 应用</span>
+                        <span class="stag pink">ML-Agents</span>
+                        <span class="stag blue">数据挖掘</span>
+                        <span class="stag">数据分析</span>
+                        <span class="stag pink">MySQL</span>
+                        <span class="stag">算法设计</span>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">&#128295;</div>
-                    <h3>开发工具与工作流</h3>
-                    <div class="skill-tags">
-                        <span class="tag">Visual Studio</span>
-                        <span class="tag">CLion</span>
-                        <span class="tag">CMake</span>
-                        <span class="tag">Git</span>
-                        <span class="tag">MySQL</span>
-                        <span class="tag">Claude Code</span>
+                <div class="skill-card" data-tilt>
+                    <div class="skill-card-glow"></div>
+                    <div class="skill-header">
+                        <div class="skill-icon-wrap pink">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <h3>工程与工具</h3>
+                    </div>
+                    <div class="skill-tags-wrap">
+                        <span class="stag blue">Git</span>
+                        <span class="stag">CMake</span>
+                        <span class="stag pink">Visual Studio</span>
+                        <span class="stag">CLion</span>
+                        <span class="stag blue">ENet 网络</span>
+                        <span class="stag pink">后端开发</span>
+                        <span class="stag">系统运维</span>
+                        <span class="stag blue">Claude Code</span>
+                        <span class="stag">PS5 开发</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 项目经历 -->
+    <!-- ====== 项目 ====== -->
     <section class="section" id="projects">
         <div class="container">
-            <h2 class="section-title">项目经历</h2>
-            <div class="projects-list">
-
-                <!-- 项目1：实时图形渲染引擎 -->
-                <article class="project-card project-featured">
-                    <div class="project-gallery">
-                        <div class="gallery-main">
-                            <img src="images/graphics-engine-3.png" alt="实时图形渲染引擎 - 城堡日落场景" id="gallery-main-1">
-                        </div>
-                        <div class="gallery-thumbs">
-                            <img src="images/graphics-engine-1.png" alt="地形与水面" class="thumb active" onclick="switchImage(1, this, 'images/graphics-engine-1.png')">
-                            <img src="images/graphics-engine-2.png" alt="全景概览" class="thumb" onclick="switchImage(1, this, 'images/graphics-engine-2.png')">
-                            <img src="images/graphics-engine-3.png" alt="城堡日落" class="thumb" onclick="switchImage(1, this, 'images/graphics-engine-3.png')">
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-meta">
-                            <span class="project-date">2025/10 - 至今</span>
-                            <span class="project-type">独立开发</span>
-                        </div>
-                        <h3 class="project-title">实时图形渲染引擎</h3>
-                        <p class="project-stack">C++ / OpenGL / GLSL</p>
-                        <p class="project-desc">独立开发基于 OpenGL 的实时 3D 渲染引擎，实现"双世界"时空场景切换。</p>
-                        <ul class="project-features">
-                            <li>搭建前向 + 延迟渲染双管线，实现 G-Buffer MRT 和多光源照明</li>
-                            <li>实现阴影映射（PCF 软阴影）、水面渲染（菲涅尔反射/折射）、Bloom 后处理</li>
-                            <li>GPU 实例化草地渲染 + 粒子天气系统 + 昼夜循环</li>
-                            <li>GLTF 模型加载、骨骼动画、程序化体素树生成</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="https://github.com/chushuliang62-afk/Real-Time-Graphics-Engine" target="_blank" class="btn btn-small">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                                GitHub
-                            </a>
-                            <a href="https://youtu.be/JwGoFDqoRmM" target="_blank" class="btn btn-small btn-video">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                                演示视频
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- 项目2：多人合作潜行游戏 -->
-                <article class="project-card">
-                    <div class="project-preview stealth-preview">
-                        <div class="preview-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        </div>
-                        <span class="preview-label">团队项目 · 开发中</span>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-meta">
-                            <span class="project-date">2026/01 - 至今</span>
-                            <span class="project-type">团队项目</span>
-                        </div>
-                        <h3 class="project-title">多人合作潜行游戏开发</h3>
-                        <p class="project-stack">C++ / ECS / Jolt Physics / OpenGL + Vulkan</p>
-                        <p class="project-desc">团队开发基于 ECS 架构的 3D 潜行动作游戏，负责玩家行为、敌人 AI、道具及 Debug。</p>
-                        <ul class="project-features">
-                            <li>实现玩家行为系统：移动、姿态切换（站立/蹲下）、CQC 近身制服、伪装机制</li>
-                            <li>开发敌人 AI 系统：四状态感知模型（Safe/Caution/Alert/Hunt）+ 导航寻路</li>
-                            <li>实现部分道具与交互逻辑、死亡判定等游戏机制</li>
-                            <li>负责项目 Debug 与性能排查，使用 ImGui 搭建调试工具面板</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="https://github.com/Sinthome-Ludens/CSC8507-08" target="_blank" class="btn btn-small btn-disabled">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                                私有仓库
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- 项目3：易碎品配送游戏 -->
-                <article class="project-card">
-                    <div class="project-preview physics-preview">
-                        <div class="preview-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 000 20 14.5 14.5 0 000-20"/><path d="M2 12h20"/></svg>
-                        </div>
-                        <span class="preview-label">物理引擎 + AI + 多人联机</span>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-meta">
-                            <span class="project-date">2025/11 - 2025/12</span>
-                            <span class="project-type">独立开发</span>
-                        </div>
-                        <h3 class="project-title">易碎品配送 - 基于物理引擎的多人合作游戏</h3>
-                        <p class="project-stack">C++ / 自研物理引擎 / ENet 网络</p>
-                        <p class="project-desc">独立开发包含物理引擎、AI 系统与多人联机的 3D 游戏。</p>
-                        <ul class="project-features">
-                            <li>自研刚体物理引擎：碰撞检测（AABB/OBB/SAT/GJK）、四种碰撞响应模式</li>
-                            <li>四种 AI 敌人，基于有限状态机 + A* 寻路</li>
-                            <li>基于 ENet 实现客户端/服务器多人联机，状态插值与高分同步</li>
-                            <li>第三人称相机系统、包裹易碎品评分机制</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="https://github.com/chushuliang62-afk/CSC8503-Fragile-Delivery" target="_blank" class="btn btn-small">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                                GitHub
-                            </a>
-                            <a href="https://youtu.be/VnZjHgHrUR8" target="_blank" class="btn btn-small btn-video">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                                演示视频
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- 项目4：囚徒困境模拟器 -->
-                <article class="project-card">
-                    <div class="project-preview ipd-preview">
-                        <div class="preview-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-                        </div>
-                        <span class="preview-label">博弈论模拟</span>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-meta">
-                            <span class="project-date">2025/09 - 2025/11</span>
-                            <span class="project-type">独立开发</span>
-                        </div>
-                        <h3 class="project-title">囚徒困境模拟器</h3>
-                        <p class="project-stack">C++</p>
-                        <p class="project-desc">开发迭代囚徒困境博弈论模拟器，支持锦标赛与进化模拟。</p>
-                        <ul class="project-features">
-                            <li>多态策略架构 + 工厂模式，实现 10+ 种博弈策略</li>
-                            <li>进化模拟系统：种群适应度选择、变异、跨代演化</li>
-                            <li>支持 Text / CSV / JSON 多种输出格式</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="https://github.com/chushuliang62-afk/Project-1-IPD-Simulator" target="_blank" class="btn btn-small">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
+            <div class="section-header">
+                <span class="section-num">03</span>
+                <h2 class="section-title">项目作品</h2>
+                <div class="section-line"></div>
             </div>
-        </div>
-    </section>
 
-    <!-- 工作经验 -->
-    <section class="section section-alt" id="experience">
-        <div class="container">
-            <h2 class="section-title">工作经验</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>客服部经理</h3>
-                            <span class="timeline-date">2025.04 - 2025.08</span>
+            <!-- 项目1：渲染引擎 -->
+            <div class="project-showcase" id="proj1">
+                <div class="proj-visual">
+                    <div class="proj-img-wrap">
+                        <img src="images/graphics-engine-3.png" alt="实时渲染引擎" class="proj-img" id="projImg1">
+                        <div class="proj-img-overlay">
+                            <a href="https://youtu.be/JwGoFDqoRmM" target="_blank" class="play-btn">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                                <span>观看演示</span>
+                            </a>
                         </div>
-                        <p class="timeline-company">中福（山东）黄金集团有限公司</p>
-                        <p>负责客服团队管理与培训，处理用户咨询与售后，协同技术部门优化平台体验。</p>
+                    </div>
+                    <div class="proj-thumbs">
+                        <img src="images/graphics-engine-1.png" alt="" class="proj-thumb active" onclick="switchProj(1,this)">
+                        <img src="images/graphics-engine-2.png" alt="" class="proj-thumb" onclick="switchProj(1,this)">
+                        <img src="images/graphics-engine-3.png" alt="" class="proj-thumb" onclick="switchProj(1,this)">
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>后端开发 / 后台运维</h3>
-                            <span class="timeline-date">2025.03 - 2025.04</span>
-                        </div>
-                        <p class="timeline-company">福宝商城项目</p>
-                        <p>参与商城 APP 后端开发，负责接口设计、数据库搭建与联调测试。</p>
+                <div class="proj-detail">
+                    <span class="proj-label">独立开发 &middot; 2025/10 - 至今</span>
+                    <h3 class="proj-title">实时图形渲染引擎</h3>
+                    <div class="proj-tech">
+                        <span>C++</span><span>OpenGL</span><span>GLSL</span>
+                    </div>
+                    <p class="proj-desc">基于 OpenGL 从零搭建的实时 3D 渲染引擎，实现"双世界"时空场景切换，涵盖 20+ 种 Shader 效果。</p>
+                    <ul class="proj-list">
+                        <li>前向 + 延迟渲染双管线，G-Buffer MRT，多光源照明</li>
+                        <li>PCF 软阴影、水面菲涅尔反射/折射、Bloom 后处理</li>
+                        <li>GPU 实例化草地、粒子天气系统、昼夜循环</li>
+                        <li>GLTF 加载、骨骼动画、程序化体素树生成</li>
+                    </ul>
+                    <div class="proj-actions">
+                        <a href="https://github.com/chushuliang62-afk/Real-Time-Graphics-Engine" target="_blank" class="btn-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> 源码</a>
+                        <a href="https://youtu.be/JwGoFDqoRmM" target="_blank" class="btn-link pink"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> 视频</a>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>技术支持 / 系统运维</h3>
-                            <span class="timeline-date">2024.01 - 2025.03</span>
+            </div>
+
+            <!-- 项目2：潜行游戏 -->
+            <div class="project-showcase reverse">
+                <div class="proj-visual">
+                    <div class="proj-img-wrap no-overlay">
+                        <div class="proj-placeholder stealth-bg">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            <span>开发中 · 团队项目</span>
                         </div>
-                        <p class="timeline-company">中福（山东）黄金集团有限公司</p>
-                        <p>负责业务系统日常运维，处理系统故障，协助数据整理与分析。</p>
+                    </div>
+                </div>
+                <div class="proj-detail">
+                    <span class="proj-label">团队项目 &middot; 2026/01 - 至今</span>
+                    <h3 class="proj-title">多人合作潜行游戏</h3>
+                    <div class="proj-tech">
+                        <span>C++</span><span>ECS</span><span>Jolt Physics</span><span>Vulkan</span>
+                    </div>
+                    <p class="proj-desc">基于 ECS 架构的 3D 潜行动作游戏，负责玩家行为、敌人 AI、道具系统及调试工具开发。</p>
+                    <ul class="proj-list">
+                        <li>玩家行为系统：移动、姿态切换、CQC 近身制服、伪装</li>
+                        <li>敌人 AI：四状态感知模型 + 导航寻路</li>
+                        <li>道具交互逻辑、死亡判定等核心机制</li>
+                        <li>ImGui 调试面板，性能分析与排查</li>
+                    </ul>
+                    <div class="proj-actions">
+                        <span class="btn-link disabled"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> 私有仓库</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目3：物理游戏 -->
+            <div class="project-showcase">
+                <div class="proj-visual">
+                    <div class="proj-img-wrap">
+                        <div class="proj-placeholder physics-bg">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 000 20 14.5 14.5 0 000-20"/><path d="M2 12h20"/></svg>
+                            <span>物理 + AI + 联机</span>
+                        </div>
+                        <div class="proj-img-overlay">
+                            <a href="https://youtu.be/VnZjHgHrUR8" target="_blank" class="play-btn">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                                <span>观看演示</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="proj-detail">
+                    <span class="proj-label">独立开发 &middot; 2025/11 - 2025/12</span>
+                    <h3 class="proj-title">易碎品配送 - 物理引擎多人游戏</h3>
+                    <div class="proj-tech">
+                        <span>C++</span><span>自研物理引擎</span><span>ENet</span><span>AI</span>
+                    </div>
+                    <p class="proj-desc">独立开发包含物理引擎、AI 系统与多人联机的 3D 游戏，全部核心系统从零实现。</p>
+                    <ul class="proj-list">
+                        <li>刚体物理：AABB/OBB/SAT/GJK 碰撞检测，四种响应模式</li>
+                        <li>四种 AI 敌人，FSM + A* 寻路</li>
+                        <li>ENet 客户端/服务器联机，状态插值与高分同步</li>
+                        <li>第三人称相机、包裹易碎品评分机制</li>
+                    </ul>
+                    <div class="proj-actions">
+                        <a href="https://github.com/chushuliang62-afk/CSC8503-Fragile-Delivery" target="_blank" class="btn-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> 源码</a>
+                        <a href="https://youtu.be/VnZjHgHrUR8" target="_blank" class="btn-link pink"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> 视频</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目4：囚徒困境 -->
+            <div class="project-showcase reverse">
+                <div class="proj-visual">
+                    <div class="proj-img-wrap no-overlay">
+                        <div class="proj-placeholder ipd-bg">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                            <span>博弈论 + 进化模拟</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="proj-detail">
+                    <span class="proj-label">独立开发 &middot; 2025/09 - 2025/11</span>
+                    <h3 class="proj-title">囚徒困境模拟器</h3>
+                    <div class="proj-tech">
+                        <span>C++</span><span>博弈论</span><span>进化算法</span>
+                    </div>
+                    <p class="proj-desc">迭代囚徒困境博弈论模拟器，支持锦标赛与进化模拟，涵盖 10+ 种经典策略。</p>
+                    <ul class="proj-list">
+                        <li>多态策略架构 + 工厂模式，10+ 种博弈策略</li>
+                        <li>进化模拟：种群适应度选择、变异、跨代演化</li>
+                        <li>支持 Text / CSV / JSON 多种输出格式</li>
+                    </ul>
+                    <div class="proj-actions">
+                        <a href="https://github.com/chushuliang62-afk/Project-1-IPD-Simulator" target="_blank" class="btn-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> 源码</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 教育背景 -->
-    <section class="section" id="education">
+    <!-- ====== 经历 ====== -->
+    <section class="section section-dark" id="experience">
         <div class="container">
-            <h2 class="section-title">教育背景</h2>
-            <div class="edu-grid">
-                <div class="edu-card">
-                    <div class="edu-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+            <div class="section-header">
+                <span class="section-num">04</span>
+                <h2 class="section-title">经历</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="exp-tabs">
+                <div class="exp-tab-nav">
+                    <button class="exp-tab active" data-tab="work">工作经验</button>
+                    <button class="exp-tab" data-tab="edu">教育背景</button>
+                    <button class="exp-tab" data-tab="extra">课外经历</button>
+                    <div class="tab-indicator"></div>
+                </div>
+                <div class="exp-tab-content active" id="tab-work">
+                    <div class="exp-item">
+                        <div class="exp-dot"></div>
+                        <div class="exp-body">
+                            <div class="exp-top"><h4>客服部经理</h4><span>2025.04 - 2025.08</span></div>
+                            <p class="exp-company">中福（山东）黄金集团有限公司</p>
+                            <p>负责客服团队管理与培训，处理用户咨询与售后，协同技术部门优化平台体验。</p>
+                        </div>
                     </div>
-                    <div class="edu-info">
-                        <h3>英国纽卡斯尔大学（NCL）</h3>
-                        <p class="edu-degree">计算机游戏工程 · 硕士</p>
-                        <p class="edu-date">2025/09 - 至今</p>
-                        <ul>
-                            <li>主修：高级游戏编程（C++）、高级游戏图形学、高级游戏技术</li>
-                            <li>专业排名<strong>前 5%</strong></li>
-                            <li>跟随博士学长学习 LLM-Based Game Agents、机器学习</li>
-                        </ul>
+                    <div class="exp-item">
+                        <div class="exp-dot"></div>
+                        <div class="exp-body">
+                            <div class="exp-top"><h4>后端开发 / 后台运维</h4><span>2025.03 - 2025.04</span></div>
+                            <p class="exp-company">福宝商城项目</p>
+                            <p>参与商城 APP 后端开发，负责接口设计、数据库搭建与联调测试。</p>
+                        </div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-dot"></div>
+                        <div class="exp-body">
+                            <div class="exp-top"><h4>技术支持 / 系统运维</h4><span>2024.01 - 2025.03</span></div>
+                            <p class="exp-company">中福（山东）黄金集团有限公司</p>
+                            <p>负责业务系统日常运维，处理系统故障，协助数据整理与分析。</p>
+                        </div>
                     </div>
                 </div>
-                <div class="edu-card">
-                    <div class="edu-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+                <div class="exp-tab-content" id="tab-edu">
+                    <div class="exp-item">
+                        <div class="exp-dot"></div>
+                        <div class="exp-body">
+                            <div class="exp-top"><h4>英国纽卡斯尔大学（NCL）</h4><span>2025.09 - 至今</span></div>
+                            <p class="exp-company">计算机游戏工程 · 硕士 · 专业前5%</p>
+                            <p>主修高级游戏编程（C++）、高级图形学、高级游戏技术。跟随博士学长研究 LLM-Based Game Agents 与机器学习。</p>
+                        </div>
                     </div>
-                    <div class="edu-info">
-                        <h3>印度韦洛尔科技大学（VIT）</h3>
-                        <p class="edu-degree">计算机科学 · 本科 · GPA 7.09/10.00</p>
-                        <p class="edu-date">2019/09 - 2024/06</p>
-                        <ul>
-                            <li>主修：计算机图形学、数据结构、算法设计、AI、云计算</li>
-                            <li>优秀毕业生毕业，连续两年获得学校奖学金</li>
-                            <li>全英文授课，具备扎实的英文能力</li>
-                        </ul>
+                    <div class="exp-item">
+                        <div class="exp-dot"></div>
+                        <div class="exp-body">
+                            <div class="exp-top"><h4>印度韦洛尔科技大学（VIT）</h4><span>2019.09 - 2024.06</span></div>
+                            <p class="exp-company">计算机科学 · 本科 · GPA 7.09/10</p>
+                            <p>主修计算机图形学、数据结构、算法设计、AI、数据库管理、云计算等。优秀毕业生，连续两年获得学校奖学金。全英文授课。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exp-tab-content" id="tab-extra">
+                    <div class="exp-item">
+                        <div class="exp-dot"></div>
+                        <div class="exp-body">
+                            <div class="exp-top"><h4>全印度中国学生联盟 · 学习部部长</h4><span>2022.09 - 2024.06</span></div>
+                            <p>策划组织留学生学术分享会，对接印度多所高校学生会。参与中国驻印使领馆及孔子学院文化交流活动。作为中印青年代表受邀出席"中印友谊五四青年节"活动。</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 联系方式 -->
-    <section class="section section-alt" id="contact">
+    <!-- ====== 联系 ====== -->
+    <section class="section" id="contact">
         <div class="container">
-            <h2 class="section-title">联系方式</h2>
-            <p class="contact-desc">目前正在寻找游戏开发相关的实习或工作机会，欢迎联系！</p>
-            <div class="contact-grid">
-                <a href="mailto:chushuliang62@gmail.com" class="contact-card">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-                    <span>chushuliang62@gmail.com</span>
+            <div class="section-header">
+                <span class="section-num">05</span>
+                <h2 class="section-title">联系我</h2>
+                <div class="section-line"></div>
+            </div>
+            <p class="contact-lead">正在寻找<span class="text-gradient">软件开发 / 图形 / AI</span> 相关机会，欢迎联系！</p>
+            <div class="contact-cards">
+                <a href="mailto:chushuliang62@gmail.com" class="c-card">
+                    <div class="c-card-icon blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+                    </div>
+                    <div class="c-card-info">
+                        <span class="c-label">邮箱</span>
+                        <span class="c-value">chushuliang62@gmail.com</span>
+                    </div>
                 </a>
-                <a href="https://github.com/chushuliang62-afk" target="_blank" class="contact-card">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                    <span>github.com/chushuliang62-afk</span>
+                <a href="https://github.com/chushuliang62-afk" target="_blank" class="c-card">
+                    <div class="c-card-icon pink">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </div>
+                    <div class="c-card-info">
+                        <span class="c-label">GitHub</span>
+                        <span class="c-value">chushuliang62-afk</span>
+                    </div>
                 </a>
-                <a href="tel:15006736179" class="contact-card">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                    <span>+86 150-0673-6179</span>
+                <a href="tel:15006736179" class="c-card">
+                    <div class="c-card-icon blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    </div>
+                    <div class="c-card-info">
+                        <span class="c-label">电话</span>
+                        <span class="c-value">+86 150-0673-6179</span>
+                    </div>
                 </a>
             </div>
         </div>
@@ -416,8 +454,9 @@
 
     <!-- 页脚 -->
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 褚姝良. 用热爱构建游戏世界。</p>
+        <div class="container footer-inner">
+            <p>&copy; 2026 褚姝良</p>
+            <p class="footer-sub">用代码构建世界</p>
         </div>
     </footer>
 
