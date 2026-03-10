@@ -25,6 +25,7 @@ const profileOverlay = document.getElementById('profileOverlay');
 const profileClose = document.getElementById('profileClose');
 
 logoBtn.addEventListener('click', () => profileOverlay.classList.add('active'));
+document.querySelector('.hero-profile-link').addEventListener('click', () => profileOverlay.classList.add('active'));
 profileClose.addEventListener('click', () => profileOverlay.classList.remove('active'));
 profileOverlay.addEventListener('click', (e) => {
     if (e.target === profileOverlay) profileOverlay.classList.remove('active');
