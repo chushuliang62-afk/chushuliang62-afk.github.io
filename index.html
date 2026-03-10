@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>褚姝良</title>
+    <title>Corsini321</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,14 +14,15 @@
 <!-- Nav -->
 <nav class="nav" id="nav">
     <div class="nav-inner">
-        <a href="#" class="nav-logo">Corsini321</a>
+        <a href="javascript:void(0)" class="nav-logo" id="logoBtn">Corsini321</a>
         <div class="nav-links" id="navLinks">
-            <a href="#about">关于</a>
-            <a href="#work">作品</a>
-            <a href="#skills">能力</a>
-            <a href="#exp">经历</a>
-            <a href="#contact">联系</a>
+            <a href="#about" data-lang-zh="关于" data-lang-en="About">关于</a>
+            <a href="#work" data-lang-zh="作品" data-lang-en="Projects">作品</a>
+            <a href="#skills" data-lang-zh="能力" data-lang-en="Skills">能力</a>
+            <a href="#exp" data-lang-zh="经历" data-lang-en="Experience">经历</a>
+            <a href="#contact" data-lang-zh="联系" data-lang-en="Contact">联系</a>
         </div>
+        <button class="lang-toggle" id="langToggle">EN</button>
         <button class="burger" id="burger"><span></span><span></span></button>
     </div>
 </nav>
@@ -29,13 +30,13 @@
 <!-- ===== Hero ===== -->
 <section class="hero" id="hero">
     <h1 class="hero-h1">
-        <span class="h1-line"><span class="h1-word" style="--i:0">你好，</span></span>
-        <span class="h1-line"><span class="h1-word" style="--i:1">我是<em>褚姝良</em></span></span>
+        <span class="h1-line"><span class="h1-word" style="--i:0" data-lang-zh="你好，" data-lang-en="Hello,">你好，</span></span>
+        <span class="h1-line"><span class="h1-word" style="--i:1" data-lang-zh="我是 " data-lang-en="I'm ">我是 </span><span class="h1-word h1-name" style="--i:2">Corsini321</span></span>
     </h1>
-    <p class="hero-p fade-up" style="--d:.6s">软件工程师 · 图形程序员 · AI 探索者</p>
-    <p class="hero-p2 fade-up" style="--d:.8s">纽卡斯尔大学游戏工程硕士 · 专业前 5%</p>
+    <p class="hero-p fade-up" style="--d:.6s" data-lang-zh="软件工程师 · 图形程序员 · AI 探索者" data-lang-en="Software Engineer · Graphics Programmer · AI Explorer">软件工程师 · 图形程序员 · AI 探索者</p>
+    <p class="hero-p2 fade-up" style="--d:.8s" data-lang-zh="纽卡斯尔大学游戏工程硕士 · 专业前 5%" data-lang-en="Newcastle University MSc Game Engineering · Top 5%">纽卡斯尔大学游戏工程硕士 · 专业前 5%</p>
     <div class="hero-scroll fade-up" style="--d:1.2s">
-        <span>向下滚动</span>
+        <span data-lang-zh="向下滚动" data-lang-en="Scroll Down">向下滚动</span>
         <div class="scroll-bar"><div class="scroll-thumb"></div></div>
     </div>
 </section>
@@ -43,7 +44,7 @@
 <!-- ===== Intro text ===== -->
 <section class="sec-text" id="about">
     <div class="container-sm">
-        <p class="big-p" data-split>
+        <p class="big-p" data-split data-lang-zh="我擅长从零搭建底层系统——渲染引擎、物理引擎、AI 系统、后端架构。拥有计算机科学本科与游戏工程硕士背景，一年半企业实战经验，正在探索 LLM 与强化学习在交互系统中的应用。" data-lang-en="I specialize in building systems from scratch — rendering engines, physics engines, AI systems, and backend architecture. With a CS bachelor's and Game Engineering master's, plus 1.5 years of industry experience, I'm exploring LLM and reinforcement learning applications in interactive systems.">
             我擅长从零搭建底层系统——渲染引擎、物理引擎、AI 系统、后端架构。拥有计算机科学本科与游戏工程硕士背景，一年半企业实战经验，正在探索 LLM 与强化学习在交互系统中的应用。
         </p>
     </div>
@@ -51,7 +52,7 @@
 
 <!-- ===== Marquee ===== -->
 <div class="marquee">
-    <div class="marquee-track">
+    <div class="marquee-track" id="marqueeTrack" data-lang-zh="C++ &mdash; Python &mdash; OpenGL &mdash; GLSL &mdash; 渲染引擎 &mdash; 物理引擎 &mdash; AI &mdash; 后端 &mdash; 数据分析 &mdash; ECS &mdash; 网络同步 &mdash; MySQL &mdash;&nbsp;" data-lang-en="C++ &mdash; Python &mdash; OpenGL &mdash; GLSL &mdash; Rendering &mdash; Physics Engine &mdash; AI &mdash; Backend &mdash; Data Analysis &mdash; ECS &mdash; Networking &mdash; MySQL &mdash;&nbsp;">
         <span>C++ &mdash; Python &mdash; OpenGL &mdash; GLSL &mdash; 渲染引擎 &mdash; 物理引擎 &mdash; AI &mdash; 后端 &mdash; 数据分析 &mdash; ECS &mdash; 网络同步 &mdash; MySQL &mdash;&nbsp;</span>
         <span>C++ &mdash; Python &mdash; OpenGL &mdash; GLSL &mdash; 渲染引擎 &mdash; 物理引擎 &mdash; AI &mdash; 后端 &mdash; 数据分析 &mdash; ECS &mdash; 网络同步 &mdash; MySQL &mdash;&nbsp;</span>
     </div>
@@ -60,7 +61,7 @@
 <!-- ===== Projects ===== -->
 <section class="sec-work" id="work">
     <div class="container">
-        <h2 class="sec-h2 reveal">作品</h2>
+        <h2 class="sec-h2 reveal" data-lang-zh="作品" data-lang-en="Projects">作品</h2>
 
         <!-- P1 -->
         <a href="https://github.com/Corsini321/Real-Time-Graphics-Engine" target="_blank" class="card reveal" data-video="https://youtu.be/JwGoFDqoRmM">
@@ -70,14 +71,14 @@
                 <div class="card-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
             </div>
             <div class="card-body">
-                <span class="card-label">独立开发 · 2025.10 - 至今</span>
-                <h3>实时图形渲染引擎</h3>
-                <p>基于 OpenGL 从零搭建的实时 3D 渲染引擎。前向 + 延迟双管线，PCF 软阴影，菲涅尔水面，Bloom 后处理，GPU 实例化草地，粒子天气，昼夜循环，骨骼动画，程序化体素树。涵盖 20+ Shader。</p>
+                <span class="card-label" data-lang-zh="独立开发 · 2025.10 - 至今" data-lang-en="Solo Project · Oct 2025 - Present">独立开发 · 2025.10 - 至今</span>
+                <h3 data-lang-zh="实时图形渲染引擎" data-lang-en="Real-Time Graphics Engine">实时图形渲染引擎</h3>
+                <p data-lang-zh="基于 OpenGL 从零搭建的实时 3D 渲染引擎。前向 + 延迟双管线，PCF 软阴影，菲涅尔水面，Bloom 后处理，GPU 实例化草地，粒子天气，昼夜循环，骨骼动画，程序化体素树。涵盖 20+ Shader。" data-lang-en="A real-time 3D rendering engine built from scratch with OpenGL. Forward + deferred dual pipeline, PCF soft shadows, Fresnel water, Bloom post-processing, GPU instanced grass, particle weather, day-night cycle, skeletal animation, procedural voxel trees. 20+ shaders.">基于 OpenGL 从零搭建的实时 3D 渲染引擎。前向 + 延迟双管线，PCF 软阴影，菲涅尔水面，Bloom 后处理，GPU 实例化草地，粒子天气，昼夜循环，骨骼动画，程序化体素树。涵盖 20+ Shader。</p>
                 <div class="card-footer">
-                    <span class="card-cta">查看源码 &nearr;</span>
+                    <span class="card-cta" data-lang-zh="查看源码 ↗" data-lang-en="View Source ↗">查看源码 ↗</span>
                     <span class="card-video" onclick="event.preventDefault();event.stopPropagation();window.open('https://youtu.be/JwGoFDqoRmM','_blank')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        演示视频
+                        <span data-lang-zh="演示视频" data-lang-en="Demo Video">演示视频</span>
                     </span>
                 </div>
             </div>
@@ -91,11 +92,11 @@
                 <div class="card-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
             </div>
             <div class="card-body">
-                <span class="card-label">团队项目 · 2026.01 - 至今</span>
-                <h3>多人合作潜行游戏</h3>
-                <p>基于 ECS 架构的 3D 潜行动作游戏。玩家行为系统（移动/CQC/伪装），四状态敌人 AI + 导航寻路，道具交互与死亡判定，ImGui 调试面板与性能排查。</p>
+                <span class="card-label" data-lang-zh="团队项目 · 2026.01 - 至今" data-lang-en="Team Project · Jan 2026 - Present">团队项目 · 2026.01 - 至今</span>
+                <h3 data-lang-zh="多人合作潜行游戏" data-lang-en="Multiplayer Stealth Game">多人合作潜行游戏</h3>
+                <p data-lang-zh="基于 ECS 架构的 3D 潜行动作游戏。玩家行为系统（移动/CQC/伪装），四状态敌人 AI + 导航寻路，道具交互与死亡判定，ImGui 调试面板与性能排查。" data-lang-en="A 3D stealth action game built on ECS architecture. Player behavior system (movement/CQC/disguise), 4-state enemy AI + nav pathfinding, item interaction & death logic, ImGui debug panel & performance profiling.">基于 ECS 架构的 3D 潜行动作游戏。玩家行为系统（移动/CQC/伪装），四状态敌人 AI + 导航寻路，道具交互与死亡判定，ImGui 调试面板与性能排查。</p>
                 <div class="card-footer">
-                    <span class="card-cta disabled-cta">仓库暂未开放</span>
+                    <span class="card-cta disabled-cta" data-lang-zh="仓库暂未开放" data-lang-en="Repo Not Public Yet">仓库暂未开放</span>
                 </div>
             </div>
         </div>
@@ -104,18 +105,18 @@
         <a href="https://github.com/Corsini321/CSC8503-Fragile-Delivery" target="_blank" class="card reveal" data-video="https://youtu.be/VnZjHgHrUR8">
             <div class="card-visual physics-v">
                 <div class="card-num">03</div>
-                <div class="card-tag">C++ / 自研物理引擎 / ENet</div>
+                <div class="card-tag">C++ / Custom Physics / ENet</div>
                 <div class="card-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
             </div>
             <div class="card-body">
-                <span class="card-label">独立开发 · 2025.11 - 2025.12</span>
-                <h3>易碎品配送 · 物理引擎游戏</h3>
-                <p>全部核心系统从零实现。AABB/OBB/SAT/GJK 碰撞检测，四种 AI 敌人（FSM + A*），ENet 客户端/服务器联机，状态插值，第三人称相机，包裹评分机制。</p>
+                <span class="card-label" data-lang-zh="独立开发 · 2025.11 - 2025.12" data-lang-en="Solo Project · Nov - Dec 2025">独立开发 · 2025.11 - 2025.12</span>
+                <h3 data-lang-zh="易碎品配送 · 物理引擎游戏" data-lang-en="Fragile Delivery · Physics Engine Game">易碎品配送 · 物理引擎游戏</h3>
+                <p data-lang-zh="全部核心系统从零实现。AABB/OBB/SAT/GJK 碰撞检测，四种 AI 敌人（FSM + A*），ENet 客户端/服务器联机，状态插值，第三人称相机，包裹评分机制。" data-lang-en="All core systems built from scratch. AABB/OBB/SAT/GJK collision detection, 4 AI enemy types (FSM + A*), ENet client/server networking, state interpolation, third-person camera, parcel scoring system.">全部核心系统从零实现。AABB/OBB/SAT/GJK 碰撞检测，四种 AI 敌人（FSM + A*），ENet 客户端/服务器联机，状态插值，第三人称相机，包裹评分机制。</p>
                 <div class="card-footer">
-                    <span class="card-cta">查看源码 &nearr;</span>
+                    <span class="card-cta" data-lang-zh="查看源码 ↗" data-lang-en="View Source ↗">查看源码 ↗</span>
                     <span class="card-video" onclick="event.preventDefault();event.stopPropagation();window.open('https://youtu.be/VnZjHgHrUR8','_blank')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        演示视频
+                        <span data-lang-zh="演示视频" data-lang-en="Demo Video">演示视频</span>
                     </span>
                 </div>
             </div>
@@ -125,15 +126,15 @@
         <a href="https://github.com/Corsini321/Project-1-IPD-Simulator" target="_blank" class="card reveal">
             <div class="card-visual ipd-v">
                 <div class="card-num">04</div>
-                <div class="card-tag">C++ / 博弈论 / 进化算法</div>
+                <div class="card-tag">C++ / Game Theory / Evolution</div>
                 <div class="card-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div>
             </div>
             <div class="card-body">
-                <span class="card-label">独立开发 · 2025.09 - 2025.11</span>
-                <h3>囚徒困境模拟器</h3>
-                <p>迭代囚徒困境博弈论模拟器。多态策略 + 工厂模式（10+ 策略），进化模拟系统（种群选择/变异/演化），Text / CSV / JSON 多格式输出。</p>
+                <span class="card-label" data-lang-zh="独立开发 · 2025.09 - 2025.11" data-lang-en="Solo Project · Sep - Nov 2025">独立开发 · 2025.09 - 2025.11</span>
+                <h3 data-lang-zh="囚徒困境模拟器" data-lang-en="Prisoner's Dilemma Simulator">囚徒困境模拟器</h3>
+                <p data-lang-zh="迭代囚徒困境博弈论模拟器。多态策略 + 工厂模式（10+ 策略），进化模拟系统（种群选择/变异/演化），Text / CSV / JSON 多格式输出。" data-lang-en="Iterated Prisoner's Dilemma game theory simulator. Polymorphic strategies + factory pattern (10+ strategies), evolutionary simulation (population selection/mutation/evolution), Text / CSV / JSON multi-format output.">迭代囚徒困境博弈论模拟器。多态策略 + 工厂模式（10+ 策略），进化模拟系统（种群选择/变异/演化），Text / CSV / JSON 多格式输出。</p>
                 <div class="card-footer">
-                    <span class="card-cta">查看源码 &nearr;</span>
+                    <span class="card-cta" data-lang-zh="查看源码 ↗" data-lang-en="View Source ↗">查看源码 ↗</span>
                 </div>
             </div>
         </a>
@@ -143,10 +144,10 @@
 <!-- ===== Skills ===== -->
 <section class="sec-skills" id="skills">
     <div class="container">
-        <h2 class="sec-h2 reveal">能力</h2>
+        <h2 class="sec-h2 reveal" data-lang-zh="能力" data-lang-en="Skills">能力</h2>
         <div class="skill-row">
             <div class="skill-col reveal">
-                <h3>编程语言</h3>
+                <h3 data-lang-zh="编程语言" data-lang-en="Languages">编程语言</h3>
                 <ul>
                     <li><span>C / C++</span><span class="dot-bar"><i style="--w:95%"></i></span></li>
                     <li><span>Python</span><span class="dot-bar"><i style="--w:75%"></i></span></li>
@@ -156,40 +157,40 @@
                 </ul>
             </div>
             <div class="skill-col reveal">
-                <h3>图形 & 引擎</h3>
+                <h3 data-lang-zh="图形 & 引擎" data-lang-en="Graphics & Engine">图形 & 引擎</h3>
                 <div class="chip-wrap">
                     <span class="chip">OpenGL</span>
-                    <span class="chip">前向渲染</span>
-                    <span class="chip">延迟渲染</span>
-                    <span class="chip">阴影映射</span>
-                    <span class="chip">后处理</span>
-                    <span class="chip">物理引擎</span>
+                    <span class="chip" data-lang-zh="前向渲染" data-lang-en="Forward Rendering">前向渲染</span>
+                    <span class="chip" data-lang-zh="延迟渲染" data-lang-en="Deferred Rendering">延迟渲染</span>
+                    <span class="chip" data-lang-zh="阴影映射" data-lang-en="Shadow Mapping">阴影映射</span>
+                    <span class="chip" data-lang-zh="后处理" data-lang-en="Post-Processing">后处理</span>
+                    <span class="chip" data-lang-zh="物理引擎" data-lang-en="Physics Engine">物理引擎</span>
                     <span class="chip">SAT / GJK</span>
-                    <span class="chip">ECS 架构</span>
-                    <span class="chip">骨骼动画</span>
+                    <span class="chip" data-lang-zh="ECS 架构" data-lang-en="ECS Architecture">ECS 架构</span>
+                    <span class="chip" data-lang-zh="骨骼动画" data-lang-en="Skeletal Animation">骨骼动画</span>
                 </div>
             </div>
             <div class="skill-col reveal">
-                <h3>AI & 数据</h3>
+                <h3 data-lang-zh="AI & 数据" data-lang-en="AI & Data">AI & 数据</h3>
                 <div class="chip-wrap">
-                    <span class="chip">FSM / 行为树</span>
-                    <span class="chip">A* 寻路</span>
-                    <span class="chip">LLM 应用</span>
+                    <span class="chip" data-lang-zh="FSM / 行为树" data-lang-en="FSM / Behavior Tree">FSM / 行为树</span>
+                    <span class="chip" data-lang-zh="A* 寻路" data-lang-en="A* Pathfinding">A* 寻路</span>
+                    <span class="chip" data-lang-zh="LLM 应用" data-lang-en="LLM Applications">LLM 应用</span>
                     <span class="chip">ML-Agents</span>
-                    <span class="chip">数据挖掘</span>
-                    <span class="chip">算法设计</span>
+                    <span class="chip" data-lang-zh="数据挖掘" data-lang-en="Data Mining">数据挖掘</span>
+                    <span class="chip" data-lang-zh="算法设计" data-lang-en="Algorithm Design">算法设计</span>
                     <span class="chip">MySQL</span>
                 </div>
             </div>
             <div class="skill-col reveal">
-                <h3>工程 & 工具</h3>
+                <h3 data-lang-zh="工程 & 工具" data-lang-en="Engineering & Tools">工程 & 工具</h3>
                 <div class="chip-wrap">
                     <span class="chip">Git</span>
                     <span class="chip">CMake</span>
-                    <span class="chip">ENet 网络</span>
-                    <span class="chip">后端开发</span>
-                    <span class="chip">系统运维</span>
-                    <span class="chip">PS5 开发</span>
+                    <span class="chip" data-lang-zh="ENet 网络" data-lang-en="ENet Networking">ENet 网络</span>
+                    <span class="chip" data-lang-zh="后端开发" data-lang-en="Backend Dev">后端开发</span>
+                    <span class="chip" data-lang-zh="系统运维" data-lang-en="DevOps">系统运维</span>
+                    <span class="chip" data-lang-zh="PS5 开发" data-lang-en="PS5 Dev">PS5 开发</span>
                     <span class="chip">Claude Code</span>
                 </div>
             </div>
@@ -200,32 +201,32 @@
 <!-- ===== Experience ===== -->
 <section class="sec-exp" id="exp">
     <div class="container">
-        <h2 class="sec-h2 reveal">经历</h2>
+        <h2 class="sec-h2 reveal" data-lang-zh="经历" data-lang-en="Experience">经历</h2>
         <div class="exp-grid">
             <div class="exp-block reveal">
-                <h3>教育</h3>
+                <h3 data-lang-zh="教育" data-lang-en="Education">教育</h3>
                 <div class="exp-card">
-                    <div class="ec-top"><strong>纽卡斯尔大学（NCL）</strong><span>2025.09 - 至今</span></div>
-                    <p class="ec-sub">计算机游戏工程 · 硕士 · 前5%</p>
-                    <p>高级游戏编程(C++)、图形学、游戏技术。研究 LLM-Based Game Agents。</p>
+                    <div class="ec-top"><strong data-lang-zh="纽卡斯尔大学（NCL）" data-lang-en="Newcastle University (NCL)">纽卡斯尔大学（NCL）</strong><span>2025.09 - Present</span></div>
+                    <p class="ec-sub" data-lang-zh="计算机游戏工程 · 硕士 · 前5%" data-lang-en="Computer Game Engineering · MSc · Top 5%">计算机游戏工程 · 硕士 · 前5%</p>
+                    <p data-lang-zh="高级游戏编程(C++)、图形学、游戏技术。研究 LLM-Based Game Agents。" data-lang-en="Advanced Game Programming (C++), Graphics, Game Tech. Researching LLM-Based Game Agents.">高级游戏编程(C++)、图形学、游戏技术。研究 LLM-Based Game Agents。</p>
                 </div>
                 <div class="exp-card">
-                    <div class="ec-top"><strong>韦洛尔科技大学（VIT）</strong><span>2019.09 - 2024.06</span></div>
-                    <p class="ec-sub">计算机科学 · 本科 · GPA 7.09/10</p>
-                    <p>图形学、算法、AI、数据库、云计算。优秀毕业生，连续两年奖学金。</p>
+                    <div class="ec-top"><strong data-lang-zh="韦洛尔科技大学（VIT）" data-lang-en="Vellore Institute of Technology (VIT)">韦洛尔科技大学（VIT）</strong><span>2019.09 - 2024.06</span></div>
+                    <p class="ec-sub" data-lang-zh="计算机科学 · 本科 · GPA 7.09/10" data-lang-en="Computer Science · BSc · GPA 7.09/10">计算机科学 · 本科 · GPA 7.09/10</p>
+                    <p data-lang-zh="图形学、算法、AI、数据库、云计算。优秀毕业生，连续两年奖学金。" data-lang-en="Graphics, Algorithms, AI, Databases, Cloud Computing. Outstanding graduate, 2-year scholarship.">图形学、算法、AI、数据库、云计算。优秀毕业生，连续两年奖学金。</p>
                 </div>
             </div>
             <div class="exp-block reveal">
-                <h3>工作</h3>
+                <h3 data-lang-zh="工作" data-lang-en="Work">工作</h3>
                 <div class="exp-card">
-                    <div class="ec-top"><strong>客服部经理</strong><span>2025.04 - 08</span></div>
-                    <p class="ec-sub">中福（山东）黄金集团</p>
-                    <p>团队管理培训，用户咨询售后，协同技术部门优化平台。</p>
+                    <div class="ec-top"><strong data-lang-zh="客服部经理" data-lang-en="Customer Service Manager">客服部经理</strong><span>2025.04 - 08</span></div>
+                    <p class="ec-sub" data-lang-zh="中福（山东）黄金集团" data-lang-en="Zhongfu (Shandong) Gold Group">中福（山东）黄金集团</p>
+                    <p data-lang-zh="团队管理培训，用户咨询售后，协同技术部门优化平台。" data-lang-en="Team management & training, customer consulting & after-sales, collaborating with tech to optimize platform.">团队管理培训，用户咨询售后，协同技术部门优化平台。</p>
                 </div>
                 <div class="exp-card">
-                    <div class="ec-top"><strong>后端开发 / 运维</strong><span>2024.01 - 2025.04</span></div>
-                    <p class="ec-sub">福宝商城 & 中福集团</p>
-                    <p>商城后端开发，接口设计，数据库搭建，系统运维与故障处理。</p>
+                    <div class="ec-top"><strong data-lang-zh="后端开发 / 运维" data-lang-en="Backend Developer / DevOps">后端开发 / 运维</strong><span>2024.01 - 2025.04</span></div>
+                    <p class="ec-sub" data-lang-zh="福宝商城 & 中福集团" data-lang-en="Fubao Mall & Zhongfu Group">福宝商城 & 中福集团</p>
+                    <p data-lang-zh="商城后端开发，接口设计，数据库搭建，系统运维与故障处理。" data-lang-en="E-commerce backend development, API design, database setup, system operations & troubleshooting.">商城后端开发，接口设计，数据库搭建，系统运维与故障处理。</p>
                 </div>
             </div>
         </div>
@@ -235,8 +236,8 @@
 <!-- ===== Contact ===== -->
 <section class="sec-contact" id="contact">
     <div class="container-sm">
-        <h2 class="big-contact reveal">聊聊？</h2>
-        <p class="contact-sub reveal">正在寻找软件开发 / 图形 / AI / 数据相关机会</p>
+        <h2 class="big-contact reveal" data-lang-zh="聊聊？" data-lang-en="Let's Talk?">聊聊？</h2>
+        <p class="contact-sub reveal" data-lang-zh="正在寻找软件开发 / 图形 / AI / 数据相关机会" data-lang-en="Looking for opportunities in Software Dev / Graphics / AI / Data">正在寻找软件开发 / 图形 / AI / 数据相关机会</p>
         <div class="contact-links reveal">
             <a href="mailto:chushuliang62@gmail.com">chushuliang62@gmail.com</a>
             <a href="https://github.com/Corsini321" target="_blank">GitHub</a>
@@ -247,9 +248,43 @@
 
 <footer class="footer">
     <div class="container footer-inner">
-        <span>&copy; 2026 褚姝良</span>
+        <span>&copy; 2026 Corsini321</span>
     </div>
 </footer>
+
+<!-- ===== Profile Modal ===== -->
+<div class="profile-overlay" id="profileOverlay">
+    <div class="profile-modal">
+        <button class="profile-close" id="profileClose">&times;</button>
+        <div class="profile-header">
+            <div class="profile-avatar">C</div>
+            <h2>Corsini321</h2>
+            <p class="profile-tagline" data-lang-zh="软件工程师 · 图形程序员 · AI 探索者" data-lang-en="Software Engineer · Graphics Programmer · AI Explorer">软件工程师 · 图形程序员 · AI 探索者</p>
+        </div>
+        <div class="profile-details">
+            <div class="profile-item">
+                <span class="profile-label">Email</span>
+                <a href="mailto:chushuliang62@gmail.com">chushuliang62@gmail.com</a>
+            </div>
+            <div class="profile-item">
+                <span class="profile-label">GitHub</span>
+                <a href="https://github.com/Corsini321" target="_blank">github.com/Corsini321</a>
+            </div>
+            <div class="profile-item">
+                <span class="profile-label" data-lang-zh="电话" data-lang-en="Phone">电话</span>
+                <span>+86 150-0673-6179</span>
+            </div>
+            <div class="profile-item">
+                <span class="profile-label" data-lang-zh="教育" data-lang-en="Education">教育</span>
+                <span data-lang-zh="纽卡斯尔大学 · 游戏工程硕士 · 前5%" data-lang-en="Newcastle University · MSc Game Engineering · Top 5%">纽卡斯尔大学 · 游戏工程硕士 · 前5%</span>
+            </div>
+            <div class="profile-item">
+                <span class="profile-label" data-lang-zh="状态" data-lang-en="Status">状态</span>
+                <span class="profile-status" data-lang-zh="正在求职中 ✦" data-lang-en="Open to Opportunities ✦">正在求职中 ✦</span>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="script.js"></script>
 </body>
