@@ -345,11 +345,23 @@ const adminClose = document.getElementById('adminClose');
 const adminBody = document.getElementById('adminBody');
 const adminForm = document.getElementById('adminForm');
 const adminList = document.getElementById('adminList');
-const adminAddBtn = document.getElementById('adminAddBtn');
 const adminBack = document.getElementById('adminBack');
 const adminSave = document.getElementById('adminSave');
 const adminDeleteBtn = document.getElementById('adminDelete');
+const adminDropZone = document.getElementById('adminDropZone');
+const adminFileInput = document.getElementById('adminFileInput');
+const adminProgress = document.getElementById('adminProgress');
+const adminProgressFill = document.getElementById('adminProgressFill');
+const adminProgressText = document.getElementById('adminProgressText');
+const adminSections = document.getElementById('adminSections');
+const adminAddSection = document.getElementById('adminAddSection');
 let editingId = null;
+let currentPdfFilename = '';
+
+// PDF.js worker
+if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
 
 // Secret: click footer 5 times
 let footerClicks = 0;
@@ -378,88 +390,394 @@ function closeAdmin() {
 
 adminClose.addEventListener('click', closeAdmin);
 adminOverlay.addEventListener('click', (e) => { if (e.target === adminOverlay) closeAdmin(); });
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') { e.preventDefault(); openAdmin(); }
+});
 
 function showAdminList() {
     adminForm.style.display = 'none';
     adminBody.style.display = '';
+    adminProgress.style.display = 'none';
     const cp = getCustomPosts();
     const ids = Object.keys(cp);
     if (ids.length === 0) {
-        adminList.innerHTML = '<p class="admin-empty">还没有自定义文章，点击下方按钮添加</p>';
+        adminList.innerHTML = '<p class="admin-empty">还没有文章，拖入 PDF 即可自动创建</p>';
     } else {
         adminList.innerHTML = ids.map(id => {
             const p = cp[id];
-            return '<div class="admin-list-item"><div><strong>' + p.title_zh + '</strong><br><small>' + (p.desc_zh || '') + '</small></div><div class="admin-list-actions"><button onclick="editAdminPost(\'' + id + '\')">编辑</button></div></div>';
+            return '<div class="admin-list-item"><div><strong>' + p.title_zh + '</strong><br><small>' + (p.desc_zh || '') + '</small></div><div class="admin-list-actions"><button onclick="editAdminPost(\'' + id + '\')">编辑</button><button onclick="deleteAdminPost(\'' + id + '\')" style="color:#ef4444;border-color:#fca5a5">删除</button></div></div>';
         }).join('');
     }
 }
 
-adminAddBtn.addEventListener('click', () => {
-    editingId = null;
-    document.getElementById('adminFormTitle').textContent = '添加文章';
-    document.getElementById('af_id').value = '';
-    document.getElementById('af_id').disabled = false;
-    document.getElementById('af_title_zh').value = '';
-    document.getElementById('af_title_en').value = '';
-    document.getElementById('af_desc_zh').value = '';
-    document.getElementById('af_desc_en').value = '';
-    document.getElementById('af_pdf').value = '';
-    document.getElementById('af_intro_zh').value = '';
-    document.getElementById('af_intro_en').value = '';
-    adminDeleteBtn.style.display = 'none';
-    adminBody.style.display = 'none';
-    adminForm.style.display = '';
+/* ===== PDF Drag & Drop ===== */
+adminDropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    adminDropZone.classList.add('drag-over');
+});
+adminDropZone.addEventListener('dragleave', () => {
+    adminDropZone.classList.remove('drag-over');
+});
+adminDropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    adminDropZone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type === 'application/pdf') {
+        handlePdfFile(file);
+    } else {
+        alert('请拖入 PDF 文件');
+    }
+});
+adminFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) handlePdfFile(file);
+    adminFileInput.value = '';
+});
+adminDropZone.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'INPUT') adminFileInput.click();
 });
 
+/* ===== Parse PDF with pdf.js ===== */
+async function handlePdfFile(file) {
+    currentPdfFilename = file.name;
+    adminProgress.style.display = '';
+    adminProgressFill.style.width = '10%';
+    adminProgressText.textContent = '正在读取 PDF...';
+
+    try {
+        const arrayBuffer = await file.arrayBuffer();
+        adminProgressFill.style.width = '30%';
+        adminProgressText.textContent = '正在解析页面...';
+
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const totalPages = pdf.numPages;
+        let fullText = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items.map(item => item.str).join('');
+            fullText += pageText + '\n\n';
+            adminProgressFill.style.width = (30 + 50 * (i / totalPages)) + '%';
+            adminProgressText.textContent = '正在解析第 ' + i + '/' + totalPages + ' 页...';
+        }
+
+        adminProgressFill.style.width = '90%';
+        adminProgressText.textContent = '正在识别文章结构...';
+
+        const parsed = parsePdfText(fullText, file.name);
+
+        adminProgressFill.style.width = '100%';
+        adminProgressText.textContent = '解析完成！';
+
+        setTimeout(() => {
+            showEditForm(parsed, false);
+        }, 400);
+    } catch (err) {
+        console.error('PDF parse error:', err);
+        adminProgress.style.display = 'none';
+        alert('PDF 解析失败: ' + err.message);
+    }
+}
+
+/* ===== Smart text parsing ===== */
+function parsePdfText(text, filename) {
+    // Clean up text
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+    // Try to extract title from first meaningful line
+    let title = '';
+    let startIdx = 0;
+
+    // Skip very short lines at the beginning (header noise, page numbers)
+    for (let i = 0; i < Math.min(lines.length, 5); i++) {
+        const line = lines[i];
+        // Title is usually the first substantial line
+        if (line.length >= 2 && line.length <= 100) {
+            title = line;
+            startIdx = i + 1;
+            break;
+        }
+    }
+
+    if (!title) {
+        // Fallback: use filename without extension
+        title = filename.replace(/\.pdf$/i, '');
+    }
+
+    // Parse sections: look for heading patterns
+    const sections = [];
+    let currentHeading = '';
+    let currentContent = [];
+
+    const isHeading = (line) => {
+        // Common heading patterns in Chinese academic PDFs:
+        // 1. Numbered: "一、", "1.", "1、", "第一章"
+        // 2. Keywords: "背景", "方法", "结论", "摘要", etc.
+        // 3. Short lines followed by longer content
+        if (line.length > 60) return false;
+        if (line.length < 2) return false;
+        // Numbered patterns
+        if (/^[一二三四五六七八九十]+[、.．]/.test(line)) return true;
+        if (/^\d+[、.\s．]/.test(line)) return true;
+        if (/^第[一二三四五六七八九十\d]+[章节部分]/.test(line)) return true;
+        // Common section keywords (only if line is short enough to be a heading)
+        if (line.length <= 20) {
+            const headingKeywords = ['摘要', '背景', '引言', '简介', '方法', '核心方法', '核心思路', '实验', '结果', '结论', '总结', '讨论', '参考', '附录', '亮点', '不足', '感触', '个人', 'Abstract', 'Introduction', 'Background', 'Method', 'Results', 'Conclusion', 'Summary', 'Discussion'];
+            if (headingKeywords.some(kw => line.includes(kw))) return true;
+        }
+        return false;
+    };
+
+    // First pass: group into intro + sections
+    const contentLines = lines.slice(startIdx);
+    let introText = '';
+
+    for (let i = 0; i < contentLines.length; i++) {
+        const line = contentLines[i];
+
+        if (isHeading(line)) {
+            // Save previous section
+            if (currentHeading && currentContent.length > 0) {
+                sections.push({ type: 'section', heading: currentHeading, text: currentContent.join('') });
+            } else if (!currentHeading && currentContent.length > 0) {
+                introText = currentContent.join('');
+            }
+            currentHeading = line.replace(/^[一二三四五六七八九十\d]+[、.\s．]+/, '').replace(/^第[一二三四五六七八九十\d]+[章节部分][、.\s．]*/, '');
+            if (!currentHeading) currentHeading = line;
+            currentContent = [];
+        } else {
+            currentContent.push(line);
+        }
+    }
+
+    // Last section
+    if (currentHeading && currentContent.length > 0) {
+        sections.push({ type: 'section', heading: currentHeading, text: currentContent.join('') });
+    } else if (currentContent.length > 0) {
+        if (!introText) {
+            introText = currentContent.join('');
+        } else {
+            sections.push({ type: 'section', heading: '正文', text: currentContent.join('') });
+        }
+    }
+
+    // If no sections found, treat entire text as one block
+    if (sections.length === 0 && !introText) {
+        introText = contentLines.join('\n');
+    }
+
+    // Generate an ID from title
+    let id = title
+        .replace(/[\u4e00-\u9fff]/g, '') // remove Chinese chars
+        .replace(/[^a-zA-Z0-9\s-]/g, '')
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .slice(0, 30);
+    if (!id) {
+        id = 'post-' + Date.now().toString(36);
+    }
+
+    // Generate description from intro or first section
+    let desc = introText || (sections[0] ? sections[0].text : '');
+    if (desc.length > 50) desc = desc.slice(0, 47) + '...';
+
+    return {
+        id: id,
+        title_zh: title,
+        title_en: '',
+        desc_zh: desc,
+        desc_en: '',
+        pdf: filename,
+        intro: introText,
+        sections: sections
+    };
+}
+
+/* ===== Show edit form ===== */
+function showEditForm(data, isEdit) {
+    editingId = isEdit ? data.id : null;
+    adminBody.style.display = 'none';
+    adminForm.style.display = '';
+    adminProgress.style.display = 'none';
+
+    document.getElementById('adminFormTitle').textContent = isEdit ? '编辑文章' : '确认文章内容';
+    document.getElementById('af_id').value = data.id || '';
+    document.getElementById('af_id').disabled = isEdit;
+    document.getElementById('af_pdf').value = data.pdf || '';
+    document.getElementById('af_title_zh').value = data.title_zh || '';
+    document.getElementById('af_title_en').value = data.title_en || '';
+    document.getElementById('af_desc_zh').value = data.desc_zh || '';
+    document.getElementById('af_desc_en').value = data.desc_en || '';
+    adminDeleteBtn.style.display = isEdit ? '' : 'none';
+
+    // Render sections
+    adminSections.innerHTML = '';
+
+    // Add intro if exists
+    if (data.intro) {
+        addSectionBlock('intro', '引言', data.intro);
+    }
+
+    // Add content sections
+    if (data.sections) {
+        data.sections.forEach(s => {
+            addSectionBlock(s.type || 'section', s.heading || '', s.text || '');
+        });
+    }
+}
+
+function addSectionBlock(type, heading, text) {
+    const block = document.createElement('div');
+    block.className = 'admin-section-block';
+    block.innerHTML =
+        '<div class="admin-section-type">' +
+            '<button data-type="intro"' + (type === 'intro' ? ' class="active"' : '') + '>引言</button>' +
+            '<button data-type="section"' + (type === 'section' ? ' class="active"' : '') + '>章节</button>' +
+            '<button data-type="divider"' + (type === 'divider' ? ' class="active"' : '') + '>分割线</button>' +
+        '</div>' +
+        '<button class="admin-section-remove">&times;</button>' +
+        (type !== 'divider' ?
+            (type === 'section' ? '<input type="text" class="section-heading" placeholder="章节标题" value="' + (heading || '').replace(/"/g, '&quot;') + '" style="margin-bottom:8px">' : '') +
+            '<textarea class="section-text" rows="4" placeholder="内容...">' + (text || '') + '</textarea>'
+            : '');
+
+    // Type switching
+    block.querySelectorAll('.admin-section-type button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            block.querySelectorAll('.admin-section-type button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const newType = btn.dataset.type;
+            // Re-render content area
+            const existingHeading = block.querySelector('.section-heading');
+            const existingText = block.querySelector('.section-text');
+            const headingVal = existingHeading ? existingHeading.value : '';
+            const textVal = existingText ? existingText.value : '';
+            // Remove old inputs
+            if (existingHeading) existingHeading.remove();
+            if (existingText) existingText.remove();
+            if (newType === 'divider') return;
+            const removeBtn = block.querySelector('.admin-section-remove');
+            if (newType === 'section') {
+                const inp = document.createElement('input');
+                inp.type = 'text';
+                inp.className = 'section-heading';
+                inp.placeholder = '章节标题';
+                inp.value = headingVal;
+                inp.style.marginBottom = '8px';
+                removeBtn.after(inp);
+                const ta = document.createElement('textarea');
+                ta.className = 'section-text';
+                ta.rows = 4;
+                ta.placeholder = '内容...';
+                ta.value = textVal;
+                inp.after(ta);
+            } else {
+                const ta = document.createElement('textarea');
+                ta.className = 'section-text';
+                ta.rows = 4;
+                ta.placeholder = '引言内容...';
+                ta.value = textVal;
+                removeBtn.after(ta);
+            }
+        });
+    });
+
+    // Remove button
+    block.querySelector('.admin-section-remove').addEventListener('click', () => {
+        block.remove();
+    });
+
+    adminSections.appendChild(block);
+}
+
+adminAddSection.addEventListener('click', () => {
+    addSectionBlock('section', '', '');
+});
+
+/* ===== Edit existing post ===== */
 window.editAdminPost = function(id) {
-    editingId = id;
     const cp = getCustomPosts();
     const p = cp[id];
     if (!p) return;
-    document.getElementById('adminFormTitle').textContent = '编辑文章';
-    document.getElementById('af_id').value = id;
-    document.getElementById('af_id').disabled = true;
-    document.getElementById('af_title_zh').value = p.title_zh || '';
-    document.getElementById('af_title_en').value = p.title_en || '';
-    document.getElementById('af_desc_zh').value = p.desc_zh || '';
-    document.getElementById('af_desc_en').value = p.desc_en || '';
-    // Extract PDF filename from sections
-    const pdfSection = (p.sections_zh || []).find(s => s.type === 'pdf');
-    document.getElementById('af_pdf').value = pdfSection ? pdfSection.filename : '';
-    // Extract intro
+
+    // Reconstruct data for the form
     const introSection = (p.sections_zh || []).find(s => s.type === 'intro');
-    document.getElementById('af_intro_zh').value = introSection ? introSection.text : '';
-    const introSectionEn = (p.sections_en || []).find(s => s.type === 'intro');
-    document.getElementById('af_intro_en').value = introSectionEn ? introSectionEn.text : '';
-    adminDeleteBtn.style.display = '';
-    adminBody.style.display = 'none';
-    adminForm.style.display = '';
+    const pdfSection = (p.sections_zh || []).find(s => s.type === 'pdf');
+    const contentSections = (p.sections_zh || []).filter(s => s.type !== 'intro' && s.type !== 'pdf');
+
+    showEditForm({
+        id: id,
+        title_zh: p.title_zh || '',
+        title_en: p.title_en || '',
+        desc_zh: p.desc_zh || '',
+        desc_en: p.desc_en || '',
+        pdf: pdfSection ? pdfSection.filename : (p.pdfFilename || ''),
+        intro: introSection ? introSection.text : '',
+        sections: contentSections
+    }, true);
+};
+
+/* ===== Delete post ===== */
+window.deleteAdminPost = function(id) {
+    if (!confirm('确定删除 "' + id + '" ？')) return;
+    const cp = getCustomPosts();
+    delete cp[id];
+    saveCustomPosts(cp);
+    delete blogPosts[id];
+    injectCustomBlogCards();
+    showAdminList();
 };
 
 adminBack.addEventListener('click', () => {
     showAdminList();
 });
 
+/* ===== Save post ===== */
 adminSave.addEventListener('click', () => {
     const id = (editingId || document.getElementById('af_id').value).trim().toLowerCase().replace(/\s+/g, '-');
     if (!id) { alert('请填写文章 ID'); return; }
     const titleZh = document.getElementById('af_title_zh').value.trim();
-    const titleEn = document.getElementById('af_title_en').value.trim();
     if (!titleZh) { alert('请填写中文标题'); return; }
-
+    const titleEn = document.getElementById('af_title_en').value.trim();
     const descZh = document.getElementById('af_desc_zh').value.trim();
     const descEn = document.getElementById('af_desc_en').value.trim();
     const pdf = document.getElementById('af_pdf').value.trim();
-    const introZh = document.getElementById('af_intro_zh').value.trim();
-    const introEn = document.getElementById('af_intro_en').value.trim();
 
+    // Collect sections from the editor
     const sectionsZh = [];
     const sectionsEn = [];
-    if (introZh) sectionsZh.push({ type: 'intro', text: introZh });
-    if (introEn || introZh) sectionsEn.push({ type: 'intro', text: introEn || introZh });
+    const blocks = adminSections.querySelectorAll('.admin-section-block');
+
+    blocks.forEach(block => {
+        const activeType = block.querySelector('.admin-section-type button.active');
+        const type = activeType ? activeType.dataset.type : 'section';
+        const headingEl = block.querySelector('.section-heading');
+        const textEl = block.querySelector('.section-text');
+        const heading = headingEl ? headingEl.value.trim() : '';
+        const text = textEl ? textEl.value.trim() : '';
+
+        if (type === 'divider') {
+            sectionsZh.push({ type: 'divider' });
+            sectionsEn.push({ type: 'divider' });
+        } else if (type === 'intro') {
+            if (text) {
+                sectionsZh.push({ type: 'intro', text: text });
+                sectionsEn.push({ type: 'intro', text: text });
+            }
+        } else if (type === 'section') {
+            if (text) {
+                sectionsZh.push({ type: 'section', heading: heading || '正文', text: text });
+                sectionsEn.push({ type: 'section', heading: heading || 'Content', text: text });
+            }
+        }
+    });
+
+    // Add PDF link at the end
     if (pdf) {
-        sectionsZh.push({ type: 'pdf', filename: pdf, text_zh: '查看完整研读报告 (PDF)', text_en: 'View Full Study Report (PDF)' });
-        sectionsEn.push({ type: 'pdf', filename: pdf, text_zh: '查看完整研读报告 (PDF)', text_en: 'View Full Study Report (PDF)' });
+        sectionsZh.push({ type: 'pdf', filename: pdf, text_zh: '查看完整 PDF', text_en: 'View Full PDF' });
+        sectionsEn.push({ type: 'pdf', filename: pdf, text_zh: '查看完整 PDF', text_en: 'View Full PDF' });
     }
 
     const post = {
@@ -469,6 +787,7 @@ adminSave.addEventListener('click', () => {
         card_en: titleEn || titleZh,
         desc_zh: descZh,
         desc_en: descEn || descZh,
+        pdfFilename: pdf,
         sections_zh: sectionsZh,
         sections_en: sectionsEn
     };
@@ -479,6 +798,7 @@ adminSave.addEventListener('click', () => {
     blogPosts[id] = post;
     injectCustomBlogCards();
     showAdminList();
+    alert('文章已保存！');
 });
 
 adminDeleteBtn.addEventListener('click', () => {

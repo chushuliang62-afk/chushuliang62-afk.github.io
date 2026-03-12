@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Corsini321</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -347,35 +348,59 @@
             <h2>博客管理</h2>
             <button class="admin-close" id="adminClose">&times;</button>
         </div>
+        <!-- View 1: List + drag zone -->
         <div class="admin-body" id="adminBody">
+            <div class="admin-drop-zone" id="adminDropZone">
+                <div class="admin-drop-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+                </div>
+                <p class="admin-drop-title">拖拽 PDF 到这里</p>
+                <p class="admin-drop-sub">自动识别内容并生成博客文章</p>
+                <label class="admin-drop-btn">
+                    或点击选择文件
+                    <input type="file" id="adminFileInput" accept=".pdf" style="display:none">
+                </label>
+            </div>
+            <div class="admin-progress" id="adminProgress" style="display:none">
+                <div class="admin-progress-bar"><div class="admin-progress-fill" id="adminProgressFill"></div></div>
+                <p class="admin-progress-text" id="adminProgressText">正在解析 PDF...</p>
+            </div>
             <div class="admin-list" id="adminList"></div>
-            <button class="admin-btn-add" id="adminAddBtn">+ 添加新文章</button>
         </div>
+        <!-- View 2: Edit form (after PDF parsed or editing existing) -->
         <div class="admin-form" id="adminForm" style="display:none">
             <div class="admin-form-header">
                 <button class="admin-back" id="adminBack">&larr; 返回</button>
-                <h3 id="adminFormTitle">添加文章</h3>
+                <h3 id="adminFormTitle">确认文章内容</h3>
             </div>
             <div class="admin-form-body">
-                <label>文章 ID（英文，用于内部标识）</label>
+                <label>文章 ID（英文，自动生成，可修改）</label>
                 <input type="text" id="af_id" placeholder="例如: my-paper">
+                <label>PDF 文件名</label>
+                <input type="text" id="af_pdf" readonly>
+
+                <div class="admin-form-divider"></div>
+                <h4 class="admin-form-section-title">基本信息（用于卡片展示）</h4>
+
                 <label>中文标题</label>
-                <input type="text" id="af_title_zh" placeholder="论文研读标题">
-                <label>英文标题</label>
-                <input type="text" id="af_title_en" placeholder="Paper Study Title">
-                <label>中文简介（卡片描述）</label>
+                <input type="text" id="af_title_zh" placeholder="自动识别...">
+                <label>英文标题（可选）</label>
+                <input type="text" id="af_title_en" placeholder="English title...">
+                <label>中文简介</label>
                 <input type="text" id="af_desc_zh" placeholder="简短描述">
-                <label>英文简介（卡片描述）</label>
+                <label>英文简介（可选）</label>
                 <input type="text" id="af_desc_en" placeholder="Short description">
-                <label>PDF 文件名（放在同目录下）</label>
-                <input type="text" id="af_pdf" placeholder="例如: 我的论文研读.pdf">
-                <label>中文摘要（可选，显示在弹窗中）</label>
-                <textarea id="af_intro_zh" rows="3" placeholder="论文研读的简要概述..."></textarea>
-                <label>英文摘要（可选）</label>
-                <textarea id="af_intro_en" rows="3" placeholder="Brief overview..."></textarea>
+
+                <div class="admin-form-divider"></div>
+                <h4 class="admin-form-section-title">文章正文（从 PDF 自动识别）</h4>
+                <p class="admin-form-hint">每个段落自动识别为一个章节，你可以编辑标题和内容</p>
+
+                <div id="adminSections"></div>
+                <button class="admin-btn-add-section" id="adminAddSection">+ 添加章节</button>
+
                 <div class="admin-form-actions">
-                    <button class="admin-btn-save" id="adminSave">保存</button>
-                    <button class="admin-btn-delete" id="adminDelete" style="display:none">删除</button>
+                    <button class="admin-btn-save" id="adminSave">保存并发布</button>
+                    <button class="admin-btn-delete" id="adminDelete" style="display:none">删除文章</button>
                 </div>
             </div>
         </div>
