@@ -190,10 +190,11 @@ const blogPosts = {
         ]
     },
     clip: {
-        title_zh: 'CLIP 模型论文解读',
-        title_en: 'CLIP Paper Analysis — Learning Transferable Visual Models From Natural Language',
+        title_zh: 'CLIP 模型论文研读',
+        title_en: 'CLIP Paper Study — Learning Transferable Visual Models From Natural Language',
         sections_zh: [
-            { type: 'intro', text: 'Learning Transferable Visual Models From Natural Language Supervision — 通过自然语言监督学习可迁移的视觉模型。论文地址：https://arxiv.org/abs/2103.00020' },
+            { type: 'intro', text: 'Learning Transferable Visual Models From Natural Language Supervision — 通过自然语言监督学习可迁移的视觉模型。' },
+            { type: 'link', url: 'https://arxiv.org/abs/2103.00020', text: '论文地址：https://arxiv.org/abs/2103.00020' },
             { type: 'section', heading: '论文的背景', text: '传统视觉模型受限于预定义的封闭类别，新增识别目标必须依赖标注数据重训练，落地成本高。此前已有研究尝试从海量图文数据中学习通用视觉能力，但效果始终不佳，如 Li 等人 2017 年在 ImageNet 上的零样本准确率仅 11.5%，完全达不到可用标准，而 CLIP 是首个将这条技术路径走通的工作。' },
             { type: 'section', heading: '核心方法', text: 'CLIP 的核心逻辑可拆解为三步：一是联合训练图像与文本编码器，基于对比学习学习图文匹配关系，作者将原本低效的生成式训练目标，简化为图文匹配判断，训练效率直接提升 12 倍，这个取舍我读的时候很有启发，简化问题反而拿到了更优的效果；二是用"A photo of a {object}."模板生成类别文本特征；三是推理时通过图文特征相似度完成分类。' },
             { type: 'section', heading: '实验结果', text: '作者用自行构建的 4 亿对图文数据集预训练，在 30 余个视觉数据集上完成测试，零样本 CLIP 在 ImageNet 上准确率达 76.2%，与全监督训练的 ResNet-50 持平。有意思的是，CLIP 在 ImageNet 微调后，域内准确率涨了近 9 个点，但分布外数据集的泛化能力反而明显下降。' },
@@ -201,7 +202,8 @@ const blogPosts = {
             { type: 'section', heading: '个人的感触', text: '读完这篇论文，我最大的感受是「语言是打开视觉世界的钥匙」。以前视觉模型被困在固定的标签体系里，CLIP 可以说是把视觉识别从固定类别的"选择题"变成了可灵活拓展的"语言描述匹配"，彻底打破了类别边界，是后续多模态大模型、图像生成技术的重要基石。但同时我也觉得：CLIP 的效果突破靠的是超大规模数据与算力的贡献，方法本身并不复杂。这让我想到一个问题：如果没有这么多数据和算力，同样的思路还能走多远？' }
         ],
         sections_en: [
-            { type: 'intro', text: 'Learning Transferable Visual Models From Natural Language Supervision. Paper: https://arxiv.org/abs/2103.00020' },
+            { type: 'intro', text: 'Learning Transferable Visual Models From Natural Language Supervision.' },
+            { type: 'link', url: 'https://arxiv.org/abs/2103.00020', text: 'Paper: https://arxiv.org/abs/2103.00020' },
             { type: 'section', heading: 'Background', text: 'Traditional vision models are limited to predefined closed categories — adding new recognition targets requires labeled data and retraining, with high deployment costs. Prior research attempted to learn general visual capabilities from massive image-text data but results were poor; e.g., Li et al. (2017) achieved only 11.5% zero-shot accuracy on ImageNet, far from practical use. CLIP was the first work to make this technical path viable.' },
             { type: 'section', heading: 'Core Method', text: 'CLIP\'s core logic breaks down into three steps: (1) jointly training image and text encoders via contrastive learning for image-text matching — the authors simplified the original inefficient generative training objective to an image-text matching judgment, boosting training efficiency by 12x (this tradeoff was very inspiring to me — simplifying the problem actually yielded better results); (2) using "A photo of a {object}." templates to generate category text features; (3) performing classification via image-text feature similarity at inference time.' },
             { type: 'section', heading: 'Experimental Results', text: 'The authors pre-trained on a self-constructed dataset of 400 million image-text pairs and tested across 30+ vision datasets. Zero-shot CLIP achieved 76.2% accuracy on ImageNet, matching fully supervised ResNet-50. Interestingly, after fine-tuning on ImageNet, in-domain accuracy increased by nearly 9 points, but generalization on out-of-distribution datasets actually declined significantly.' },
@@ -221,6 +223,8 @@ function renderBlogPost(postId) {
     sections.forEach(s => {
         if (s.type === 'intro') {
             html += '<div class="blog-article-intro">' + s.text + '</div>';
+        } else if (s.type === 'link') {
+            html += '<a class="blog-article-link" href="' + s.url + '" target="_blank">' + s.text + ' ↗</a>';
         } else if (s.type === 'divider') {
             html += '<hr class="blog-article-divider">';
         } else if (s.type === 'subtitle') {

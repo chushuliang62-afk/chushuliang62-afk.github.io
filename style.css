@@ -165,6 +165,8 @@ a.card{text-decoration:none;color:inherit;cursor:pointer}
 .blog-article-section h2::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:3px;border-radius:2px;background:linear-gradient(180deg,var(--accent),var(--accent2))}
 .blog-article-section p{font-size:.92rem;color:var(--gray1);line-height:1.85;text-align:justify}
 .blog-article-intro{font-size:.95rem;color:var(--black);line-height:1.85;margin-bottom:32px;padding:20px 24px;background:var(--gray3);border-radius:12px;text-align:justify;font-weight:500}
+.blog-article-link{display:block;margin:-20px 0 32px;padding:12px 24px;background:var(--white);border:1px solid var(--gray2);border-radius:10px;font-size:.88rem;font-weight:600;color:var(--accent);text-decoration:none;transition:all .3s;text-align:center}
+.blog-article-link:hover{border-color:var(--accent);background:rgba(168,85,247,.05);transform:translateY(-2px)}
 .blog-article-divider{border:none;height:1px;background:var(--gray3);margin:36px 0}
 .blog-article-subtitle{font-size:1.3rem;font-weight:800;letter-spacing:-.01em;margin-bottom:24px;color:var(--black);text-align:center}
 @media(max-width:768px){
