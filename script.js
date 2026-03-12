@@ -263,23 +263,41 @@ function renderBlogPost(postId) {
     const sections = lang === 'en' ? post.sections_en : post.sections_zh;
     const title = lang === 'en' ? post.title_en : post.title_zh;
 
+    // Fixed layout order: title → intro → link → other sections → pdf
+    const intros = sections.filter(s => s.type === 'intro');
+    const links = sections.filter(s => s.type === 'link');
+    const pdfs = sections.filter(s => s.type === 'pdf');
+    const rest = sections.filter(s => s.type !== 'intro' && s.type !== 'link' && s.type !== 'pdf');
+
     let html = '<h1 class="blog-article-title">' + title + '</h1>';
-    sections.forEach(s => {
-        if (s.type === 'intro') {
-            html += '<div class="blog-article-intro">' + s.text + '</div>';
-        } else if (s.type === 'link') {
-            html += '<a class="blog-article-link" href="' + s.url + '" target="_blank">' + s.text + ' ↗</a>';
-        } else if (s.type === 'divider') {
+
+    // 1. Intro always first
+    intros.forEach(s => {
+        html += '<div class="blog-article-intro">' + s.text + '</div>';
+    });
+
+    // 2. Links right after intro
+    links.forEach(s => {
+        html += '<a class="blog-article-link" href="' + s.url + '" target="_blank">' + s.text + ' ↗</a>';
+    });
+
+    // 3. All other sections in original order
+    rest.forEach(s => {
+        if (s.type === 'divider') {
             html += '<hr class="blog-article-divider">';
         } else if (s.type === 'subtitle') {
             html += '<h2 class="blog-article-subtitle">' + s.text + '</h2>';
         } else if (s.type === 'section') {
             html += '<div class="blog-article-section"><h2>' + s.heading + '</h2><p>' + s.text + '</p></div>';
-        } else if (s.type === 'pdf') {
-            const label = lang === 'en' ? s.text_en : s.text_zh;
-            html += '<a class="blog-article-pdf" href="' + encodeURI(s.filename) + '" target="_blank">' + label + ' ↗</a>';
         }
     });
+
+    // 4. PDF download always at the end
+    pdfs.forEach(s => {
+        const label = lang === 'en' ? s.text_en : s.text_zh;
+        html += '<a class="blog-article-pdf" href="' + encodeURI(s.filename) + '" target="_blank">' + label + ' ↗</a>';
+    });
+
     blogModalBody.innerHTML = html;
 }
 
