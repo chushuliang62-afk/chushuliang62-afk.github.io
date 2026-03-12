@@ -211,6 +211,18 @@ const blogPosts = {
             { type: 'section', heading: 'Personal Reflections', text: 'After reading this paper, my biggest takeaway is that "language is the key to unlocking the visual world." Previously, vision models were trapped in fixed label systems. CLIP transformed visual recognition from a fixed-category "multiple choice" problem into flexibly extensible "language description matching," completely breaking category boundaries and becoming a crucial foundation for subsequent multimodal large models and image generation technologies. But I also feel that CLIP\'s breakthrough relies on the contribution of ultra-large-scale data and compute — the method itself is not complex. This makes me wonder: without so much data and compute, how far could the same approach go?' }
         ]
     },
+    steveeye: {
+        title_zh: 'Steve-Eye 论文研读',
+        title_en: 'Steve-Eye Paper Study — An Equip-LLM Agent Framework',
+        sections_zh: [
+            { type: 'intro', text: 'Steve-Eye：一种面向开放世界的 LLM 智能体视觉感知框架研读报告。' },
+            { type: 'pdf', filename: 'Steve-Eye 论文研读报告.pdf', text_zh: '查看完整研读报告 (PDF)', text_en: 'View Full Study Report (PDF)' }
+        ],
+        sections_en: [
+            { type: 'intro', text: 'Steve-Eye: An Equip-LLM Agent Framework for Open-World Visual Perception.' },
+            { type: 'pdf', filename: 'Steve-Eye 论文研读报告.pdf', text_zh: '查看完整研读报告 (PDF)', text_en: 'View Full Study Report (PDF)' }
+        ]
+    },
     gato: {
         title_zh: 'Gato：通用智能体论文研读',
         title_en: 'Gato: A Generalist Agent — Paper Study',
@@ -253,6 +265,9 @@ function renderBlogPost(postId) {
             html += '<h2 class="blog-article-subtitle">' + s.text + '</h2>';
         } else if (s.type === 'section') {
             html += '<div class="blog-article-section"><h2>' + s.heading + '</h2><p>' + s.text + '</p></div>';
+        } else if (s.type === 'pdf') {
+            const label = lang === 'en' ? s.text_en : s.text_zh;
+            html += '<a class="blog-article-pdf" href="' + encodeURI(s.filename) + '" target="_blank">' + label + ' ↗</a>';
         }
     });
     blogModalBody.innerHTML = html;
@@ -276,6 +291,191 @@ blogOverlay.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && blogOverlay.classList.contains('active')) closeBlogModal();
+});
+
+/* ===== Merge localStorage custom posts ===== */
+const STORAGE_KEY = 'portfolio_custom_posts';
+function getCustomPosts() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { return {}; }
+}
+function saveCustomPosts(posts) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+
+// Merge into blogPosts
+const customPosts = getCustomPosts();
+Object.assign(blogPosts, customPosts);
+
+// Inject dynamic blog cards for custom posts
+const hardcodedIds = ['re4', 'clip', 'gato', 'steveeye'];
+function injectCustomBlogCards() {
+    const container = document.getElementById('customBlogCards');
+    if (!container) return;
+    container.innerHTML = '';
+    const cp = getCustomPosts();
+    Object.keys(cp).forEach(id => {
+        if (hardcodedIds.includes(id)) return;
+        const post = cp[id];
+        const card = document.createElement('a');
+        card.href = 'javascript:void(0)';
+        card.className = 'blog-card';
+        card.onclick = () => openBlogPost(id);
+        card.innerHTML = '<div class="blog-card-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>'
+            + '<h3 data-lang-zh="' + (post.card_zh || post.title_zh) + '" data-lang-en="' + (post.card_en || post.title_en) + '">' + (lang === 'en' ? (post.card_en || post.title_en) : (post.card_zh || post.title_zh)) + '</h3>'
+            + '<p data-lang-zh="' + (post.desc_zh || '') + '" data-lang-en="' + (post.desc_en || '') + '">' + (lang === 'en' ? (post.desc_en || '') : (post.desc_zh || '')) + '</p>'
+            + '<span class="blog-card-cta" data-lang-zh="阅读全文 →" data-lang-en="Read More →">' + (lang === 'en' ? 'Read More →' : '阅读全文 →') + '</span>';
+        container.appendChild(card);
+    });
+}
+injectCustomBlogCards();
+
+/* ===== Admin Panel ===== */
+const adminOverlay = document.getElementById('adminOverlay');
+const adminClose = document.getElementById('adminClose');
+const adminBody = document.getElementById('adminBody');
+const adminForm = document.getElementById('adminForm');
+const adminList = document.getElementById('adminList');
+const adminAddBtn = document.getElementById('adminAddBtn');
+const adminBack = document.getElementById('adminBack');
+const adminSave = document.getElementById('adminSave');
+const adminDeleteBtn = document.getElementById('adminDelete');
+let editingId = null;
+
+// Secret: Ctrl+Shift+A
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        openAdmin();
+    }
+});
+
+function openAdmin() {
+    editingId = null;
+    showAdminList();
+    adminOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAdmin() {
+    adminOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+adminClose.addEventListener('click', closeAdmin);
+adminOverlay.addEventListener('click', (e) => { if (e.target === adminOverlay) closeAdmin(); });
+
+function showAdminList() {
+    adminForm.style.display = 'none';
+    adminBody.style.display = '';
+    const cp = getCustomPosts();
+    const ids = Object.keys(cp);
+    if (ids.length === 0) {
+        adminList.innerHTML = '<p class="admin-empty">还没有自定义文章，点击下方按钮添加</p>';
+    } else {
+        adminList.innerHTML = ids.map(id => {
+            const p = cp[id];
+            return '<div class="admin-list-item"><div><strong>' + p.title_zh + '</strong><br><small>' + (p.desc_zh || '') + '</small></div><div class="admin-list-actions"><button onclick="editAdminPost(\'' + id + '\')">编辑</button></div></div>';
+        }).join('');
+    }
+}
+
+adminAddBtn.addEventListener('click', () => {
+    editingId = null;
+    document.getElementById('adminFormTitle').textContent = '添加文章';
+    document.getElementById('af_id').value = '';
+    document.getElementById('af_id').disabled = false;
+    document.getElementById('af_title_zh').value = '';
+    document.getElementById('af_title_en').value = '';
+    document.getElementById('af_desc_zh').value = '';
+    document.getElementById('af_desc_en').value = '';
+    document.getElementById('af_pdf').value = '';
+    document.getElementById('af_intro_zh').value = '';
+    document.getElementById('af_intro_en').value = '';
+    adminDeleteBtn.style.display = 'none';
+    adminBody.style.display = 'none';
+    adminForm.style.display = '';
+});
+
+window.editAdminPost = function(id) {
+    editingId = id;
+    const cp = getCustomPosts();
+    const p = cp[id];
+    if (!p) return;
+    document.getElementById('adminFormTitle').textContent = '编辑文章';
+    document.getElementById('af_id').value = id;
+    document.getElementById('af_id').disabled = true;
+    document.getElementById('af_title_zh').value = p.title_zh || '';
+    document.getElementById('af_title_en').value = p.title_en || '';
+    document.getElementById('af_desc_zh').value = p.desc_zh || '';
+    document.getElementById('af_desc_en').value = p.desc_en || '';
+    // Extract PDF filename from sections
+    const pdfSection = (p.sections_zh || []).find(s => s.type === 'pdf');
+    document.getElementById('af_pdf').value = pdfSection ? pdfSection.filename : '';
+    // Extract intro
+    const introSection = (p.sections_zh || []).find(s => s.type === 'intro');
+    document.getElementById('af_intro_zh').value = introSection ? introSection.text : '';
+    const introSectionEn = (p.sections_en || []).find(s => s.type === 'intro');
+    document.getElementById('af_intro_en').value = introSectionEn ? introSectionEn.text : '';
+    adminDeleteBtn.style.display = '';
+    adminBody.style.display = 'none';
+    adminForm.style.display = '';
+};
+
+adminBack.addEventListener('click', () => {
+    showAdminList();
+});
+
+adminSave.addEventListener('click', () => {
+    const id = (editingId || document.getElementById('af_id').value).trim().toLowerCase().replace(/\s+/g, '-');
+    if (!id) { alert('请填写文章 ID'); return; }
+    const titleZh = document.getElementById('af_title_zh').value.trim();
+    const titleEn = document.getElementById('af_title_en').value.trim();
+    if (!titleZh) { alert('请填写中文标题'); return; }
+
+    const descZh = document.getElementById('af_desc_zh').value.trim();
+    const descEn = document.getElementById('af_desc_en').value.trim();
+    const pdf = document.getElementById('af_pdf').value.trim();
+    const introZh = document.getElementById('af_intro_zh').value.trim();
+    const introEn = document.getElementById('af_intro_en').value.trim();
+
+    const sectionsZh = [];
+    const sectionsEn = [];
+    if (introZh) sectionsZh.push({ type: 'intro', text: introZh });
+    if (introEn || introZh) sectionsEn.push({ type: 'intro', text: introEn || introZh });
+    if (pdf) {
+        sectionsZh.push({ type: 'pdf', filename: pdf, text_zh: '查看完整研读报告 (PDF)', text_en: 'View Full Study Report (PDF)' });
+        sectionsEn.push({ type: 'pdf', filename: pdf, text_zh: '查看完整研读报告 (PDF)', text_en: 'View Full Study Report (PDF)' });
+    }
+
+    const post = {
+        title_zh: titleZh,
+        title_en: titleEn || titleZh,
+        card_zh: titleZh,
+        card_en: titleEn || titleZh,
+        desc_zh: descZh,
+        desc_en: descEn || descZh,
+        sections_zh: sectionsZh,
+        sections_en: sectionsEn
+    };
+
+    const cp = getCustomPosts();
+    cp[id] = post;
+    saveCustomPosts(cp);
+    blogPosts[id] = post;
+    injectCustomBlogCards();
+    showAdminList();
+});
+
+adminDeleteBtn.addEventListener('click', () => {
+    if (!editingId) return;
+    if (!confirm('确定删除 "' + editingId + '" ？')) return;
+    const cp = getCustomPosts();
+    delete cp[editingId];
+    saveCustomPosts(cp);
+    delete blogPosts[editingId];
+    injectCustomBlogCards();
+    editingId = null;
+    showAdminList();
 });
 
 }); // DOMContentLoaded

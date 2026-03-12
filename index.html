@@ -263,6 +263,15 @@
                 <p data-lang-zh="多模态通用智能体研读报告" data-lang-en="Multimodal Generalist Agent Study">多模态通用智能体研读报告</p>
                 <span class="blog-card-cta" data-lang-zh="阅读全文 →" data-lang-en="Read More →">阅读全文 →</span>
             </a>
+            <a href="javascript:void(0)" class="blog-card" onclick="openBlogPost('steveeye')">
+                <div class="blog-card-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <h3 data-lang-zh="Steve-Eye论文研读" data-lang-en="Steve-Eye Paper Study">Steve-Eye论文研读</h3>
+                <p data-lang-zh="开放世界智能体视觉感知模型研读报告" data-lang-en="Open-World Agent Vision Perception Model Study">开放世界智能体视觉感知模型研读报告</p>
+                <span class="blog-card-cta" data-lang-zh="阅读全文 →" data-lang-en="Read More →">阅读全文 →</span>
+            </a>
+            <div id="customBlogCards"></div>
         </div>
     </div>
 </section>
@@ -328,6 +337,48 @@
             <button class="blog-modal-close" id="blogClose">&times;</button>
         </div>
         <div class="blog-modal-body" id="blogModalBody"></div>
+    </div>
+</div>
+
+<!-- ===== Admin Panel (Ctrl+Shift+A) ===== -->
+<div class="admin-overlay" id="adminOverlay">
+    <div class="admin-panel">
+        <div class="admin-header">
+            <h2>博客管理</h2>
+            <button class="admin-close" id="adminClose">&times;</button>
+        </div>
+        <div class="admin-body" id="adminBody">
+            <div class="admin-list" id="adminList"></div>
+            <button class="admin-btn-add" id="adminAddBtn">+ 添加新文章</button>
+        </div>
+        <div class="admin-form" id="adminForm" style="display:none">
+            <div class="admin-form-header">
+                <button class="admin-back" id="adminBack">&larr; 返回</button>
+                <h3 id="adminFormTitle">添加文章</h3>
+            </div>
+            <div class="admin-form-body">
+                <label>文章 ID（英文，用于内部标识）</label>
+                <input type="text" id="af_id" placeholder="例如: my-paper">
+                <label>中文标题</label>
+                <input type="text" id="af_title_zh" placeholder="论文研读标题">
+                <label>英文标题</label>
+                <input type="text" id="af_title_en" placeholder="Paper Study Title">
+                <label>中文简介（卡片描述）</label>
+                <input type="text" id="af_desc_zh" placeholder="简短描述">
+                <label>英文简介（卡片描述）</label>
+                <input type="text" id="af_desc_en" placeholder="Short description">
+                <label>PDF 文件名（放在同目录下）</label>
+                <input type="text" id="af_pdf" placeholder="例如: 我的论文研读.pdf">
+                <label>中文摘要（可选，显示在弹窗中）</label>
+                <textarea id="af_intro_zh" rows="3" placeholder="论文研读的简要概述..."></textarea>
+                <label>英文摘要（可选）</label>
+                <textarea id="af_intro_en" rows="3" placeholder="Brief overview..."></textarea>
+                <div class="admin-form-actions">
+                    <button class="admin-btn-save" id="adminSave">保存</button>
+                    <button class="admin-btn-delete" id="adminDelete" style="display:none">删除</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
